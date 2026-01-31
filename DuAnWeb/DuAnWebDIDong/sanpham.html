@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm - Thế Giới Di Động</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/banners/08Oct Anis  Free Upload .png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+<header class="header-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+      <!-- Logo -->
+      <div id="logoContainer"></div>
+
+      <!-- Thanh tìm kiếm -->
+      <form class="search-form flex-grow-1 mx-3" style="max-width:600px;">
+        <div class="input-group rounded-pill overflow-hidden shadow-sm">
+          <input type="text" class="form-control border-0" placeholder="Bạn cần tìm gì?" id="searchInput">
+          <button class="btn btn-light px-4" type="submit">
+            <i class="fas fa-search text-dark"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Hành động -->
+      <div class="header-actions d-flex align-items-center gap-4 flex-shrink-0">
+        <a href="lienhe.html" class="text-dark text-decoration-none d-flex align-items-center gap-1">
+          <i class="fas fa-headset"></i> <span>Hỗ trợ</span>
+        </a>
+        <a href="login.html" class="text-dark text-decoration-none d-flex align-items-center gap-1" id="userAccountLink">
+          <i class="fas fa-user"></i> <span>Đăng nhập</span>
+        </a>
+        <a href="giohang.html" class="text-dark text-decoration-none position-relative d-flex align-items-center gap-1">
+          <i class="fas fa-shopping-cart"></i> <span>Giỏ hàng</span>
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+  <div class="container-fluid px-4">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav flex-wrap justify-content-center text-center">
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="index.html">
+            <i class="fas fa-home"></i> Trang chủ
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark active" href="sanpham.html">
+            <i class="fas fa-mobile-alt"></i> Sản phẩm
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="danhgia.html">
+            <i class="fas fa-star"></i> Đánh giá
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="lienhe.html">
+            <i class="fas fa-envelope"></i> Liên hệ
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CSS -->
+<style>
+/* ========== MÀU CHỦ ĐẠO ========== */
+.header-top {
+  background-color: #001f3f; /* navy blue */
+}
+
+.bg-tgdd {
+  background-color: #002b5c !important; /* navy blue */
+}
+
+.navbar .nav-link {
+  color: #000 !important;
+  transition: 0.3s;
+}
+
+.navbar .nav-link:hover {
+  text-decoration: underline;
+  color: #666 !important;
+}
+
+.navbar .nav-link.active {
+  color: #000 !important;
+  font-weight: bold;
+  border-bottom: 3px solid #000;
+  text-decoration: none !important;
+}
+
+/* ========== SEARCH BAR ========== */
+.search-form input {
+  height: 42px;
+}
+
+.search-form input::placeholder {
+  color: #666;
+}
+
+.search-form input:focus {
+  box-shadow: none;
+}
+
+.search-form .btn {
+  background-color: #fff;
+}
+
+/* ========== BUTTON STYLE ========== */
+.header-actions a {
+  font-weight: 500;
+  color: #fff !important;
+}
+
+.header-actions a:hover {
+  color: #e0e0e0 !important;
+}
+
+.header-actions i {
+  color: #fff;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+  .search-form {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* ========== PRODUCTS PAGE SPECIFIC STYLES ========== */
+
+.products-listing {
+  min-height: 60vh;
+}
+
+.filter-sidebar .card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid #dee2e6;
+}
+
+.filter-group h6 {
+  font-size: 1.1rem;
+  color: #495057;
+}
+
+.filter-group .form-check {
+  padding: 8px 0;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.filter-group .form-check:hover {
+  background-color: #f8f9fa;
+}
+
+.filter-group .form-check-input:checked {
+  background-color: #0066cc;
+  border-color: #0066cc;
+}
+
+.filter-group .badge {
+  font-size: 0.7rem;
+  padding: 2px 6px;
+}
+
+.filter-sidebar .btn {
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+}
+
+.filter-sidebar .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Sort and Count Card */
+.products-listing .card {
+  border: 1px solid #e3e6f0;
+  transition: box-shadow 0.3s ease;
+}
+
+.products-listing .card:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+/* Product Cards Enhancement */
+.product-card {
+  border: 1px solid #e3e6f0;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-color: #0066cc;
+}
+
+.product-card img {
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Pagination Enhancement */
+.pagination {
+  margin: 0;
+}
+
+.pagination .page-link {
+  color: #0066cc;
+  border-color: #dee2e6;
+  padding: 12px 16px;
+  font-weight: 500;
+  border-radius: 6px !important;
+  margin: 0 2px;
+  transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+  color: #0052a3;
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0,102,204,0.3);
+}
+
+/* Loading and Empty States */
+#loadingState, #emptyState {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin: 20px 0;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .filter-sidebar {
+    position: static !important;
+    margin-bottom: 20px;
+  }
+  
+  .products-listing .row > div {
+    margin-bottom: 20px;
+  }
+  
+  .filter-group .d-grid {
+    gap: 8px !important;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+  }
+  
+  .pagination .page-link {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .products-listing .card-body .row > div {
+    margin-bottom: 15px;
+  }
+  
+  .products-listing .card-body .row > div:last-child {
+    margin-bottom: 0;
+  }
+  
+  .filter-sidebar .card-body {
+    padding: 20px;
+  }
+}
+</style>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section py-3 bg-light">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Điện thoại</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-listing py-5 bg-light">
+        <div class="container-fluid px-4">
+            <div class="row">
+                <!-- Filter Sidebar -->
+                <div class="col-xl-3 col-lg-4">
+                    <div class="filter-sidebar card shadow-sm border-0 rounded-3 sticky-top" style="top: 100px;">
+                        <div class="card-header bg-white border-0 py-4">
+                            <h5 class="mb-0 fw-bold text-primary">
+                                <i class="fas fa-filter me-2"></i>Bộ lọc sản phẩm
+                            </h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Price Filter -->
+                            <div class="filter-group mb-4">
+                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">
+                                    <i class="fas fa-dollar-sign text-success me-1"></i>Mức giá
+                                </h6>
+                                <!-- Price Range Inputs -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-medium">Khoảng giá (VNĐ)</label>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control form-control-sm" id="minPrice" placeholder="Từ" min="0">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control form-control-sm" id="maxPrice" placeholder="Đến" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Price Radio Buttons -->
+                                <div class="d-grid gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="price" value="0-5" id="price1">
+                                        <label class="form-check-label fw-medium" for="price1">
+                                            Dưới 5 triệu
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="price" value="5-10" id="price2">
+                                        <label class="form-check-label fw-medium" for="price2">
+                                            5 - 10 triệu
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="price" value="10-15" id="price3">
+                                        <label class="form-check-label fw-medium" for="price3">
+                                            10 - 15 triệu
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="price" value="15-20" id="price4">
+                                        <label class="form-check-label fw-medium" for="price4">
+                                            15 - 20 triệu
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="price" value="20-100" id="price5">
+                                        <label class="form-check-label fw-medium" for="price5">
+                                            Trên 20 triệu
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Brand Filter -->
+                            <div class="filter-group mb-4">
+                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">
+                                    <i class="fas fa-building text-primary me-1"></i>Hãng sản xuất
+                                </h6>
+                                <div class="d-grid gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="brand" value="Apple" id="brand-new1">
+                                        <label class="form-check-label fw-medium" for="brand-new1">
+                                            <i class="fab fa-apple text-dark me-1"></i> Apple
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="brand" value="Samsung" id="brand-new2">
+                                        <label class="form-check-label fw-medium" for="brand-new2">
+                                            <span class="badge bg-warning text-dark me-1">S</span> Samsung
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="brand" value="Xiaomi" id="brand-new3">
+                                        <label class="form-check-label fw-medium" for="brand-new3">
+                                            <span class="badge bg-orange text-white me-1">X</span> Xiaomi
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="brand" value="OPPO" id="brand-new4">
+                                        <label class="form-check-label fw-medium" for="brand-new4">
+                                            <span class="badge bg-success text-white me-1">O</span> OPPO
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="brand" value="Vivo" id="brand-new5">
+                                        <label class="form-check-label fw-medium" for="brand-new5">
+                                            <span class="badge bg-info text-white me-1">V</span> Vivo
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="brand" value="Realme" id="brand-new6">
+                                        <label class="form-check-label fw-medium" for="brand-new6">
+                                            <span class="badge bg-danger text-white me-1">R</span> Realme
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- RAM Filter -->
+                            <div class="filter-group mb-4">
+                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">
+                                    <i class="fas fa-memory text-warning me-1"></i>Dung lượng RAM
+                                </h6>
+                                <div class="d-grid gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ram" value="4" id="ram1">
+                                        <label class="form-check-label fw-medium" for="ram1">4GB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ram" value="6" id="ram2">
+                                        <label class="form-check-label fw-medium" for="ram2">6GB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ram" value="8" id="ram3">
+                                        <label class="form-check-label fw-medium" for="ram3">8GB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ram" value="12" id="ram4">
+                                        <label class="form-check-label fw-medium" for="ram4">12GB trở lên</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Storage Filter -->
+                            <div class="filter-group mb-4">
+                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">
+                                    <i class="fas fa-hdd text-info me-1"></i>Bộ nhớ trong
+                                </h6>
+                                <div class="d-grid gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="storage" value="64" id="storage1">
+                                        <label class="form-check-label fw-medium" for="storage1">64GB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="storage" value="128" id="storage2">
+                                        <label class="form-check-label fw-medium" for="storage2">128GB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="storage" value="256" id="storage3">
+                                        <label class="form-check-label fw-medium" for="storage3">256GB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="storage" value="512" id="storage4">
+                                        <label class="form-check-label fw-medium" for="storage4">512GB trở lên</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Screen Size Filter -->
+                            <div class="filter-group mb-4">
+                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">
+                                    <i class="fas fa-mobile-alt text-secondary me-1"></i>Kích thước màn hình
+                                </h6>
+                                <div class="d-grid gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="screen" value="small" id="screen1">
+                                        <label class="form-check-label fw-medium" for="screen1">Nhỏ gọn (dưới 6.5")</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="screen" value="large" id="screen2">
+                                        <label class="form-check-label fw-medium" for="screen2">Màn hình to (từ 6.5" trở lên)</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Battery Filter -->
+                            <div class="filter-group mb-4">
+                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">
+                                    <i class="fas fa-battery-full text-success me-1"></i>Dung lượng pin
+                                </h6>
+                                <div class="d-grid gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="battery" value="3000-4000" id="battery1">
+                                        <label class="form-check-label fw-medium" for="battery1">3000 - 4000mAh</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="battery" value="4000-4500" id="battery2">
+                                        <label class="form-check-label fw-medium" for="battery2">4000 - 4500mAh</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="battery" value="4500-5000" id="battery3">
+                                        <label class="form-check-label fw-medium" for="battery3">4500 - 5000mAh</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="battery" value="5000-6000" id="battery4">
+                                        <label class="form-check-label fw-medium" for="battery4">5000 - 6000mAh (Pin trâu)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="battery" value="6000-10000" id="battery5">
+                                        <label class="form-check-label fw-medium" for="battery5">Trên 6000mAh (Pin khủng)</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-danger" onclick="resetFilters()">
+                                    <i class="fas fa-redo me-1"></i> Xóa bộ lọc
+                                </button>
+                                <button class="btn btn-primary" onclick="applyFilters()">
+                                    <i class="fas fa-check me-1"></i> Áp dụng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="col-xl-9 col-lg-8">
+                    <!-- Sort and Count -->
+                    <div class="card shadow-sm border-0 rounded-3 mb-4">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-list-ul text-primary me-2 fs-5"></i>
+                                        <span id="productCount" class="fw-medium text-muted">Tìm thấy 0 sản phẩm</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+                                        <button class="btn btn-outline-primary" type="button" onclick="applyFilters()">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <label class="form-label fw-medium me-2 mb-0">Sắp xếp:</label>
+                                        <select class="form-select form-select-sm w-auto" id="sortSelect" style="min-width: 180px;">
+                                            <option value="default">Sắp xếp mặc định</option>
+                                            <option value="price-asc">Giá tăng dần</option>
+                                            <option value="price-desc">Giá giảm dần</option>
+                                            <option value="name-asc">Tên A-Z</option>
+                                            <option value="name-desc">Tên Z-A</option>
+                                            <option value="rating-desc">Đánh giá cao nhất</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="row g-4" id="productsList">
+                        <!-- Products will be loaded by JavaScript -->
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="loadingState" class="text-center py-5" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Đang tải sản phẩm...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Không tìm thấy sản phẩm</h4>
+                        <p class="text-muted">Vui lòng thử lại với bộ lọc khác</p>
+                        <button class="btn btn-primary" onclick="resetFilters()">
+                            <i class="fas fa-redo me-1"></i> Xóa bộ lọc
+                        </button>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center mt-5">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-lg" id="pagination">
+                                <!-- Pagination will be generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5" style="background-color: #ffffcc; color: #000;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h5 class="text-dark mb-3" data-setting="websiteName">Thế Giới Di Động</h5>
+                    <p>Hệ thống bán lẻ điện thoại di động hàng đầu Việt Nam</p>
+                    <div class="social-links mt-3" id="socialLinks">
+                        <a href="#" class="text-dark me-3" data-social="facebook" style="display: none;"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="youtube" style="display: none;"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="instagram" style="display: none;"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-dark" data-social="zalo" style="display: none;"><i class="fas fa-comment-dots fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Thông tin</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="gioi-thieu.html" class="text-dark text-decoration-none">Giới thiệu công ty</a></li>
+                        <li><a href="chinh-sach-bao-mat.html" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="quy-che-hoat-dong.html" class="text-dark text-decoration-none">Quy chế hoạt động</a></li>
+                        <li><a href="kiem-tra-hoa-don.html" class="text-dark text-decoration-none">Kiểm tra hóa đơn</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Hỗ trợ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="huong-dan-mua-hang.html" class="text-dark text-decoration-none">Hướng dẫn mua hàng</a></li>
+                        <li><a href="huong-dan-thanh-toan.html" class="text-dark text-decoration-none">Hướng dẫn thanh toán</a></li>
+                        <li><a href="chinh-sach-doi-tra.html" class="text-dark text-decoration-none">Chính sách đổi trả</a></li>
+                        <li><a href="bao-hanh-sua-chua.html" class="text-dark text-decoration-none">Bảo hành & sửa chữa</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Liên hệ</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone"></i> Hotline: <span data-setting="hotline">1800.6789</span></li>
+                        <li><i class="fas fa-envelope"></i> Email: <span data-setting="email">info@thegioididong.com</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-setting="address">123 Đường ABC, Quận 1, TP.HCM</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-dark">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 <span data-setting="websiteName">Thế Giới Di Động</span>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary btn-floating">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/settings-loader.js"></script>
+    <script src="js/main-api.js?v=10.0"></script>
+    <script src="js/products.js?v=2.0"></script>
+    <script>
+        // Logo will be initialized by main-api.js
+    </script>
+</body>
+</html>

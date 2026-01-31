@@ -1,0 +1,42 @@
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: thegioididong-db
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: thegioididong
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/thegioididong_full.sql:/docker-entrypoint-initdb.d/thegioididong.sql
+    networks:
+      - thegioididong-network
+
+  # PHP-FPM with Apache
+  web:
+    build: .
+    container_name: thegioididong-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: root123
+      DB_NAME: thegioididong
+    networks:
+      - thegioididong-network
+
+volumes:
+  db_data:
+
+networks:
+  thegioididong-network:
+    driver: bridge

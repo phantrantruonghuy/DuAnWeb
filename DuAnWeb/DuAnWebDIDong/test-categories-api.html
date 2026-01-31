@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Categories API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .result {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        pre {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Categories & Brands API</h1>
+    
+    <div>
+        <button onclick="testCategories()">Test Categories API</button>
+        <button onclick="testBrands()">Test Brands API</button>
+    </div>
+    
+    <div id="result" class="result" style="display: none;">
+        <h3 id="resultTitle"></h3>
+        <pre id="resultContent"></pre>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost/DuAnWeb/DuAnWebDIDong/api';
+        
+        async function testCategories() {
+            const resultDiv = document.getElementById('result');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultContent = document.getElementById('resultContent');
+            
+            resultDiv.style.display = 'block';
+            resultTitle.innerHTML = '⏳ Đang test Categories API...';
+            resultContent.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/categories.php`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultTitle.innerHTML = '✅ <span class="success">Categories API hoạt động!</span>';
+                    resultContent.textContent = JSON.stringify(data, null, 2);
+                    console.log('Categories:', data);
+                } else {
+                    resultTitle.innerHTML = '❌ <span class="error">API trả về lỗi</span>';
+                    resultContent.textContent = JSON.stringify(data, null, 2);
+                    console.error('Error:', data);
+                }
+            } catch (error) {
+                resultTitle.innerHTML = '❌ <span class="error">Không thể kết nối API</span>';
+                resultContent.textContent = `Error: ${error.message}\n\nKiểm tra:\n1. XAMPP Apache đang chạy?\n2. URL đúng: ${API_BASE_URL}/categories.php\n3. File api/categories.php tồn tại?\n4. Bảng categories đã tạo trong database?`;
+                console.error('Fetch error:', error);
+            }
+        }
+        
+        async function testBrands() {
+            const resultDiv = document.getElementById('result');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultContent = document.getElementById('resultContent');
+            
+            resultDiv.style.display = 'block';
+            resultTitle.innerHTML = '⏳ Đang test Brands API...';
+            resultContent.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/brands.php`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultTitle.innerHTML = '✅ <span class="success">Brands API hoạt động!</span>';
+                    resultContent.textContent = JSON.stringify(data, null, 2);
+                    console.log('Brands:', data);
+                } else {
+                    resultTitle.innerHTML = '❌ <span class="error">API trả về lỗi</span>';
+                    resultContent.textContent = JSON.stringify(data, null, 2);
+                    console.error('Error:', data);
+                }
+            } catch (error) {
+                resultTitle.innerHTML = '❌ <span class="error">Không thể kết nối API</span>';
+                resultContent.textContent = `Error: ${error.message}\n\nKiểm tra:\n1. XAMPP Apache đang chạy?\n2. URL đúng: ${API_BASE_URL}/brands.php\n3. File api/brands.php tồn tại?\n4. Bảng brands đã tạo trong database?`;
+                console.error('Fetch error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

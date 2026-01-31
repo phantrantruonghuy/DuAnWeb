@@ -1,0 +1,265 @@
+{
+  "description": "Cấu trúc dữ liệu localStorage của dự án DuAnWebDIDong",
+  "lastUpdated": "2025-12-12",
+  "keys": {
+    "products": {
+      "description": "Danh sách sản phẩm điện thoại (54 sản phẩm mặc định)",
+      "type": "array",
+      "structure": {
+        "id": "number - ID sản phẩm",
+        "name": "string - Tên sản phẩm",
+        "brand": "string - Thương hiệu (Apple, Samsung, Xiaomi, OPPO, Vivo, Realme)",
+        "price": "number - Giá bán (VND)",
+        "oldPrice": "number - Giá cũ (VND)",
+        "discount": "number - Phần trăm giảm giá",
+      "stock": "number - Số lượng tồn kho (ví dụ: 10)",
+        "image": "string - URL hình ảnh sản phẩm",
+        "category": "string - Danh mục (phone, tablet, laptop, accessory, smartwatch)",
+        "ram": "number - Dung lượng RAM (GB)",
+        "storage": "number - Bộ nhớ trong (GB)",
+        "rating": "number - Đánh giá (1-5 sao)",
+        "hot": "boolean - Sản phẩm hot",
+        "bestSelling": "boolean - Sản phẩm bán chạy",
+        "specs": {
+          "Màn hình": "string",
+          "Camera sau": "string",
+          "Camera trước": "string",
+          "CPU": "string",
+          "RAM": "string",
+          "Bộ nhớ trong": "string",
+          "Pin": "string"
+        },
+        "description": "string - Mô tả sản phẩm"
+      }
+    },
+    "accessories": {
+      "description": "Danh sách phụ kiện điện thoại (12 phụ kiện mặc định)",
+      "type": "array",
+      "structure": {
+        "id": "number - ID phụ kiện (bắt đầu từ 1001)",
+        "name": "string - Tên phụ kiện",
+        "brand": "string - Thương hiệu",
+        "price": "number - Giá bán (VND)",
+        "oldPrice": "number - Giá cũ (VND)",
+        "discount": "number - Phần trăm giảm giá",
+        "image": "string - URL hình ảnh",
+        "category": "string - Danh mục (accessory)",
+        "type": "string - Loại phụ kiện (case, cable, earphone, charger, screen-protector, powerbank, holder)",
+        "compatibleWith": "array - Danh sách tương thích (iPhone, Samsung, Xiaomi, OPPO, Vivo, Realme, Android)",
+        "rating": "number - Đánh giá (1-5 sao)",
+        "stock": "number - Số lượng tồn kho",
+        "description": "string - Mô tả phụ kiện"
+      }
+    },
+    "orders": {
+      "description": "Danh sách đơn hàng",
+      "type": "array",
+      "structure": {
+        "id": "number - ID đơn hàng (timestamp)",
+        "userId": "number - ID người dùng",
+        "orderNumber": "string - Mã đơn hàng (DH + timestamp)",
+        "customerName": "string - Tên khách hàng",
+        "customerPhone": "string - Số điện thoại",
+        "customerEmail": "string - Email",
+        "address": "string - Địa chỉ giao hàng",
+        "items": [
+          {
+            "id": "number - ID sản phẩm",
+            "name": "string - Tên sản phẩm",
+            "image": "string - URL hình ảnh",
+            "price": "number - Giá",
+            "quantity": "number - Số lượng"
+          }
+        ],
+        "subtotal": "number - Tạm tính",
+        "shippingFee": "number - Phí vận chuyển",
+        "discount": "number - Giảm giá",
+        "total": "number - Tổng tiền",
+        "paymentMethod": "string - Mã phương thức (cod, banking, momo, card)",
+        "paymentMethodName": "string - Tên phương thức thanh toán",
+        "status": "string - Trạng thái (Chờ xác nhận, Đã xác nhận, Đang giao, Hoàn thành, Đã hủy)",
+        "note": "string - Ghi chú",
+        "createdAt": "string - Ngày tạo (ISO)",
+        "updatedAt": "string - Ngày cập nhật (ISO)"
+      }
+    },
+    "users": {
+      "description": "Danh sách tài khoản người dùng",
+      "type": "array",
+      "structure": {
+        "id": "number - ID user (timestamp)",
+        "name": "string - Họ tên",
+        "email": "string - Email (dùng để đăng nhập)",
+        "phone": "string - Số điện thoại (10 số)",
+        "password": "string - Mật khẩu",
+        "address": "string - Địa chỉ",
+        "birthday": "string - Ngày sinh",
+        "createdAt": "string - Ngày đăng ký (ISO)",
+        "role": "string - Vai trò (user hoặc admin)"
+      }
+    },
+    "customers": {
+      "description": "Danh sách khách hàng (cho admin quản lý)",
+      "type": "array",
+      "structure": {
+        "id": "number - ID khách hàng",
+        "name": "string - Họ tên",
+        "email": "string - Email",
+        "phone": "string - Số điện thoại",
+        "address": "string - Địa chỉ",
+        "orders": "number - Số đơn hàng",
+        "registerDate": "string - Ngày đăng ký (dd/mm/yyyy)"
+      }
+    },
+    "reviews": {
+      "description": "Danh sách đánh giá sản phẩm",
+      "type": "array",
+      "structure": {
+        "id": "number - ID đánh giá (timestamp)",
+        "productId": "number - ID sản phẩm",
+        "product": "string - Tên sản phẩm",
+        "name": "string - Tên người đánh giá",
+        "email": "string - Email",
+        "rating": "number - Số sao (1-5)",
+        "content": "string - Nội dung đánh giá",
+        "date": "string - Ngày đánh giá",
+        "status": "string - Trạng thái (pending, approved, rejected)"
+      }
+    },
+    "banners": {
+      "description": "Danh sách banner quảng cáo",
+      "type": "array",
+      "structure": {
+        "title": "string - Tiêu đề banner",
+        "image": "string - URL hình ảnh",
+        "link": "string - Link khi click",
+        "active": "boolean - Đang hoạt động"
+      }
+    },
+    "categories": {
+      "description": "Danh sách danh mục sản phẩm",
+      "type": "array",
+      "structure": {
+        "id": "number - ID danh mục",
+        "name": "string - Tên danh mục",
+        "slug": "string - Slug (phone, tablet, laptop, accessory, smartwatch)",
+        "icon": "string - Icon FontAwesome (fa-mobile-alt, fa-tablet-alt...)",
+        "description": "string - Mô tả",
+        "active": "boolean - Đang hoạt động"
+      }
+    },
+    "brands": {
+      "description": "Danh sách thương hiệu",
+      "type": "array",
+      "structure": {
+        "id": "number - ID thương hiệu",
+        "name": "string - Tên thương hiệu",
+        "logo": "string - URL logo",
+        "description": "string - Mô tả",
+        "active": "boolean - Đang hoạt động"
+      }
+    },
+    "paymentMethods": {
+      "description": "Phương thức thanh toán",
+      "type": "array",
+      "structure": {
+        "id": "number - ID",
+        "name": "string - Tên phương thức",
+        "logo": "string - URL logo",
+        "description": "string - Mô tả",
+        "fee": "number - Phí (phần trăm)",
+        "active": "boolean - Đang hoạt động"
+      }
+    },
+    "vouchers": {
+      "description": "Mã giảm giá",
+      "type": "array",
+      "structure": {
+        "id": "number - ID",
+        "code": "string - Mã voucher",
+        "type": "string - Loại (percent hoặc fixed)",
+        "value": "number - Giá trị giảm",
+        "minOrder": "number - Đơn hàng tối thiểu",
+        "maxDiscount": "number - Giảm tối đa",
+        "quantity": "number - Số lượng",
+        "used": "number - Đã sử dụng",
+        "expiry": "string - Ngày hết hạn (yyyy-mm-dd)",
+        "description": "string - Mô tả",
+        "active": "boolean - Đang hoạt động"
+      }
+    },
+    "settings": {
+      "description": "Cài đặt hệ thống",
+      "type": "object",
+      "structure": {
+        "websiteName": "string - Tên website",
+        "email": "string - Email liên hệ",
+        "hotline": "string - Số hotline",
+        "address": "string - Địa chỉ",
+        "shippingFee": "number - Phí vận chuyển",
+        "freeShipMin": "number - Đơn tối thiểu miễn ship"
+      }
+    },
+    "rememberedUser": {
+      "description": "Thông tin user đã chọn 'Ghi nhớ đăng nhập'",
+      "type": "object",
+      "structure": {
+        "id": "number - ID user",
+        "name": "string - Họ tên",
+        "email": "string - Email",
+        "phone": "string - Số điện thoại",
+        "role": "string - Vai trò",
+        "loginTime": "string - Thời gian đăng nhập (ISO)"
+      }
+    },
+    "cart_guest": {
+      "description": "Giỏ hàng của khách vãng lai (chưa đăng nhập)",
+      "type": "array",
+      "structure": {
+        "id": "number - ID sản phẩm",
+        "name": "string - Tên sản phẩm",
+        "brand": "string - Thương hiệu",
+        "image": "string - URL hình ảnh",
+        "price": "number - Giá",
+        "quantity": "number - Số lượng"
+      }
+    },
+    "cart_[email]": {
+      "description": "Giỏ hàng của user đã đăng nhập (key động theo email)",
+      "type": "array",
+      "note": "Key có dạng cart_user@email.com",
+      "structure": {
+        "id": "number - ID sản phẩm",
+        "name": "string - Tên sản phẩm",
+        "brand": "string - Thương hiệu",
+        "image": "string - URL hình ảnh",
+        "price": "number - Giá",
+        "quantity": "number - Số lượng"
+      }
+    }
+  },
+  "sessionStorageKeys": {
+    "currentUser": {
+      "description": "Thông tin user đang đăng nhập (session)",
+      "structure": {
+        "id": "number",
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "role": "string",
+        "loginTime": "string"
+      }
+    },
+    "adminLoggedIn": "boolean - Admin đã đăng nhập",
+    "adminUsername": "string - Tên admin",
+    "returnUrl": "string - URL trả về sau đăng nhập",
+    "lastOrderId": "number - ID đơn hàng vừa đặt",
+    "appliedVoucher": {
+      "description": "Voucher đang áp dụng",
+      "structure": {
+        "code": "string",
+        "discount": "number"
+      }
+    }
+  }
+}

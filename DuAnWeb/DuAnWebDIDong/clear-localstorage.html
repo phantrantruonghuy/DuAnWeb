@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xóa LocalStorage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .btn-custom {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .storage-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .storage-item.empty {
+            opacity: 0.5;
+        }
+        .badge-custom {
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-database fa-4x text-primary mb-3"></i>
+                    <h2 class="fw-bold">Quản Lý LocalStorage</h2>
+                    <p class="text-muted">Xóa dữ liệu cũ để chuyển sang MySQL</p>
+                </div>
+
+                <div id="storageInfo" class="mb-4">
+                    <!-- Storage info will be loaded here -->
+                </div>
+
+                <div class="d-grid gap-3">
+                    <button class="btn btn-danger btn-custom" onclick="clearProducts()">
+                        <i class="fas fa-box"></i> Xóa Sản phẩm
+                    </button>
+                    
+                    <button class="btn btn-warning btn-custom" onclick="clearCart()">
+                        <i class="fas fa-shopping-cart"></i> Xóa Giỏ hàng
+                    </button>
+                    
+                    <button class="btn btn-info btn-custom" onclick="clearUsers()">
+                        <i class="fas fa-users"></i> Xóa Users
+                    </button>
+                    
+                    <button class="btn btn-dark btn-custom" onclick="clearAll()">
+                        <i class="fas fa-trash-alt"></i> Xóa Tất cả
+                    </button>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <a href="index.html" class="btn btn-outline-primary">
+                        <i class="fas fa-home"></i> Về Trang chủ
+                    </a>
+                    <a href="database/import_all_products.php" class="btn btn-outline-success">
+                        <i class="fas fa-database"></i> Import Sản phẩm
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <small class="text-white">
+                <i class="fas fa-info-circle"></i> 
+                Sau khi xóa, dữ liệu sẽ được load từ MySQL database
+            </small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Load storage info
+        function loadStorageInfo() {
+            const storageInfo = document.getElementById('storageInfo');
+            
+            const items = [
+                { key: 'products', name: 'Sản phẩm', icon: 'fa-box' },
+                { key: 'cart', name: 'Giỏ hàng', icon: 'fa-shopping-cart' },
+                { key: 'customers', name: 'Khách hàng', icon: 'fa-users' },
+                { key: 'currentUser', name: 'User hiện tại', icon: 'fa-user' },
+                { key: 'orders', name: 'Đơn hàng', icon: 'fa-receipt' }
+            ];
+            
+            let html = '<h5 class="mb-3">📊 Dữ liệu hiện tại:</h5>';
+            
+            items.forEach(item => {
+                const data = localStorage.getItem(item.key);
+                const exists = data !== null;
+                const size = exists ? (new Blob([data]).size / 1024).toFixed(2) : 0;
+                
+                html += `
+                    <div class="storage-item ${exists ? '' : 'empty'}">
+                        <div>
+                            <i class="fas ${item.icon} me-2"></i>
+                            <strong>${item.name}</strong>
+                        </div>
+                        <div>
+                            ${exists 
+                                ? `<span class="badge bg-success badge-custom">${size} KB</span>` 
+                                : `<span class="badge bg-secondary badge-custom">Trống</span>`
+                            }
+                        </div>
+                    </div>
+                `;
+            });
+            
+            storageInfo.innerHTML = html;
+        }
+
+        // Clear products
+        function clearProducts() {
+            Swal.fire({
+                title: 'Xóa sản phẩm?',
+                text: 'Dữ liệu sản phẩm sẽ được load từ MySQL',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('products');
+                    Swal.fire('Đã xóa!', 'Sản phẩm đã được xóa khỏi LocalStorage', 'success');
+                    loadStorageInfo();
+                }
+            });
+        }
+
+        // Clear cart
+        function clearCart() {
+            Swal.fire({
+                title: 'Xóa giỏ hàng?',
+                text: 'Tất cả sản phẩm trong giỏ sẽ bị xóa',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ffc107',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('cart');
+                    Swal.fire('Đã xóa!', 'Giỏ hàng đã được xóa', 'success');
+                    loadStorageInfo();
+                }
+            });
+        }
+
+        // Clear users
+        function clearUsers() {
+            Swal.fire({
+                title: 'Xóa users?',
+                text: 'Dữ liệu user sẽ được load từ MySQL',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#17a2b8',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('customers');
+                    localStorage.removeItem('currentUser');
+                    Swal.fire('Đã xóa!', 'Users đã được xóa khỏi LocalStorage', 'success');
+                    loadStorageInfo();
+                }
+            });
+        }
+
+        // Clear all
+        function clearAll() {
+            Swal.fire({
+                title: 'Xóa tất cả?',
+                text: 'Toàn bộ dữ liệu LocalStorage sẽ bị xóa!',
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#343a40',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa tất cả',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear();
+                    Swal.fire({
+                        title: 'Đã xóa!',
+                        text: 'Tất cả dữ liệu đã được xóa. Website sẽ load từ MySQL.',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        loadStorageInfo();
+                    });
+                }
+            });
+        }
+
+        // Load on page load
+        loadStorageInfo();
+    </script>
+</body>
+</html>

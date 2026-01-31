@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - Thế Giới Di Động</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/banners/08Oct Anis  Free Upload .png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+<header class="header-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+      <!-- Logo -->
+      <div id="logoContainer"></div>
+
+      <!-- Thanh tìm kiếm -->
+      <form class="search-form flex-grow-1 mx-3" style="max-width:600px;">
+        <div class="input-group rounded-pill overflow-hidden shadow-sm">
+          <input type="text" class="form-control border-0" placeholder="Bạn cần tìm gì?" id="searchInput">
+          <button class="btn btn-light px-4" type="submit">
+            <i class="fas fa-search text-dark"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Hành động -->
+      <div class="header-actions d-flex align-items-center gap-4 flex-shrink-0">
+        <a href="lienhe.html" class="text-dark text-decoration-none d-flex align-items-center gap-1">
+          <i class="fas fa-headset"></i> <span>Hỗ trợ</span>
+        </a>
+        <a href="login.html" class="text-dark text-decoration-none d-flex align-items-center gap-1" id="userAccountLink">
+          <i class="fas fa-user"></i> <span>Đăng nhập</span>
+        </a>
+        <a href="giohang.html" class="text-dark text-decoration-none position-relative d-flex align-items-center gap-1">
+          <i class="fas fa-shopping-cart"></i> <span>Giỏ hàng</span>
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+  <div class="container-fluid px-4">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav flex-wrap justify-content-center text-center">
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="index.html">
+            <i class="fas fa-home"></i> Trang chủ
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="sanpham.html">
+            <i class="fas fa-mobile-alt"></i> Sản phẩm
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="danhgia.html">
+            <i class="fas fa-star"></i> Đánh giá
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="lienhe.html">
+            <i class="fas fa-envelope"></i> Liên hệ
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CSS -->
+<style>
+/* ========== MÀU CHỦ ĐẠO ========== */
+.header-top {
+  background-color: #001f3f; /* navy blue */
+}
+
+.bg-tgdd {
+  background-color: #002b5c !important; /* navy blue */
+}
+
+.navbar .nav-link {
+  color: #000 !important;
+  transition: 0.3s;
+}
+
+.navbar .nav-link:hover {
+  text-decoration: underline;
+  color: #666 !important;
+}
+
+.navbar .nav-link.active {
+  color: #000 !important;
+  font-weight: bold;
+  border-bottom: 3px solid #000;
+  text-decoration: none !important;
+}
+
+/* ========== SEARCH BAR ========== */
+.search-form input {
+  height: 42px;
+}
+
+.search-form input::placeholder {
+  color: #666;
+}
+
+.search-form input:focus {
+  box-shadow: none;
+}
+
+.search-form .btn {
+  background-color: #fff;
+}
+
+/* ========== BUTTON STYLE ========== */
+.header-actions a {
+  font-weight: 500;
+  color: #fff !important;
+}
+
+.header-actions a:hover {
+  color: #e0e0e0 !important;
+}
+
+.header-actions i {
+  color: #fff;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+  .search-form {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* ========== PRODUCT DETAIL PAGE ========== */
+/* Main Image */
+.main-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+/* Thumbnails */
+.image-thumbnails {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.image-thumbnails::-webkit-scrollbar {
+  height: 6px;
+}
+
+.image-thumbnails::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.image-thumbnails::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.image-thumbnails::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.image-thumbnails img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 5px;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  flex-shrink: 0;
+}
+
+.image-thumbnails img:hover {
+  border-color: #007bff;
+  transform: scale(1.05);
+}
+
+.image-thumbnails img.active {
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Responsive for product images */
+@media (max-width: 768px) {
+  .main-image img {
+    max-height: 300px !important;
+  }
+  
+  .image-thumbnails img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Rating input stars */
+.rating-input {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.rating-input input[type="radio"] {
+  display: none;
+}
+
+.rating-input label {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ddd;
+  transition: color 0.2s;
+}
+
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input[type="radio"]:checked ~ label {
+  color: #ffc107;
+}
+
+.rating-input input[type="radio"]:checked ~ label {
+  color: #ffc107;
+}
+</style>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section py-3 bg-light">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="sanpham.html">Điện thoại</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" id="productBreadcrumb">Chi tiết</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail py-4">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Product Image -->
+                <div class="col-lg-5">
+                    <div class="product-image-section">
+                        <div class="main-image mb-3 text-center bg-white p-3 rounded border">
+                            <img src="" alt="" class="img-fluid" id="mainImage" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="image-thumbnails d-flex gap-2 flex-wrap justify-content-center">
+                            <!-- Thumbnails will be loaded by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="col-lg-7">
+                    <div class="product-info">
+                        <h2 class="product-title mb-3" id="productTitle"></h2>
+                        
+                        <div class="product-rating mb-3">
+                            <div class="stars">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <span class="text-muted ms-2">(128 đánh giá) | Đã bán 500+</span>
+                        </div>
+
+                        <div class="product-price mb-4">
+                            <h3 class="text-danger fw-bold mb-2">
+                                <span id="productPrice"></span>
+                                <span class="text-decoration-line-through text-muted fs-5 ms-2" id="oldPrice"></span>
+                            </h3>
+                            <span class="badge bg-danger" id="discount"></span>
+                        </div>
+
+                        <!-- Promotions -->
+                        <div class="promotions mb-4">
+                            <h5 class="mb-3"><i class="fas fa-gift text-danger"></i> Khuyến mãi</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    Giảm thêm 500.000đ khi thanh toán qua VNPay
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    Trả góp 0% qua thẻ tín dụng
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    Thu cũ đổi mới - Trợ giá lên đến 1.000.000đ
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    Bảo hành chính hãng 12 tháng
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Quantity and Actions -->
+                        <div class="product-actions mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="form-control text-center" value="1" min="1" id="quantity">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <button class="btn btn-primary btn-lg w-100" onclick="addToCart()">
+                                        <i class="fas fa-shopping-cart"></i> THÊM VÀO GIỎ HÀNG
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <button class="btn btn-outline-primary btn-lg w-100">
+                                    <i class="fas fa-phone"></i> GỌI ĐẶT HÀNG: <span data-setting="hotline">1800.6789</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details Tabs -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button">
+                                <i class="fas fa-list"></i> Thông số kỹ thuật
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button">
+                                <i class="fas fa-info-circle"></i> Mô tả sản phẩm
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button">
+                                <i class="fas fa-star"></i> Đánh giá (128)
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content border border-top-0 p-4" id="productTabsContent">
+                        <!-- Specifications -->
+                        <div class="tab-pane fade show active" id="specs" role="tabpanel">
+                            <table class="table table-bordered" id="specsTable">
+                                <!-- Specs will be loaded by JavaScript -->
+                            </table>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="tab-pane fade" id="description" role="tabpanel">
+                            <div id="productDescription">
+                                <!-- Description will be loaded by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Reviews -->
+                        <div class="tab-pane fade" id="reviews" role="tabpanel">
+                            <div class="reviews-section">
+                                <h5 class="mb-4">Đánh giá từ khách hàng</h5>
+                                
+                                <!-- Form đánh giá (chỉ hiện nếu đã mua) -->
+                                <div id="reviewFormSection" style="display: none;">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3">Viết đánh giá của bạn</h6>
+                                            <form id="productReviewForm">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Đánh giá của bạn <span class="text-danger">*</span></label>
+                                                    <div class="rating-input">
+                                                        <input type="radio" name="rating" value="5" id="star5" required>
+                                                        <label for="star5"><i class="fas fa-star text-warning"></i></label>
+                                                        <input type="radio" name="rating" value="4" id="star4">
+                                                        <label for="star4"><i class="fas fa-star text-warning"></i></label>
+                                                        <input type="radio" name="rating" value="3" id="star3">
+                                                        <label for="star3"><i class="fas fa-star text-warning"></i></label>
+                                                        <input type="radio" name="rating" value="2" id="star2">
+                                                        <label for="star2"><i class="fas fa-star text-warning"></i></label>
+                                                        <input type="radio" name="rating" value="1" id="star1">
+                                                        <label for="star1"><i class="fas fa-star text-warning"></i></label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nhận xét <span class="text-danger">*</span></label>
+                                                    <textarea class="form-control" id="reviewComment" rows="4" required placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fas fa-paper-plane"></i> Gửi đánh giá
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Thông báo nếu chưa mua -->
+                                <div id="notPurchasedMessage" style="display: none;">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> Bạn cần mua sản phẩm này trước khi có thể đánh giá.
+                                    </div>
+                                </div>
+                                
+                                <!-- Danh sách đánh giá -->
+                                <div id="reviewsList">
+                                    <!-- Reviews will be loaded by JavaScript -->
+                                    <p class="text-muted">Đang tải đánh giá...</p>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <a href="danhgia.html" class="btn btn-outline-primary">
+                                        Xem tất cả đánh giá <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h4 class="mb-4"><i class="fas fa-layer-group"></i> Sản phẩm liên quan</h4>
+                    <div class="row g-3" id="relatedProducts">
+                        <!-- Related products will be loaded by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended Accessories Section -->
+    <section id="recommendedAccessories">
+        <!-- Accessories will be loaded by JavaScript -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5" style="background-color: #ffffcc; color: #000;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h5 class="text-dark mb-3" data-setting="websiteName">Thế Giới Di Động</h5>
+                    <p>Hệ thống bán lẻ điện thoại di động hàng đầu Việt Nam</p>
+                    <div class="social-links mt-3" id="socialLinks">
+                        <a href="#" class="text-dark me-3" data-social="facebook" style="display: none;"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="youtube" style="display: none;"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="instagram" style="display: none;"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-dark" data-social="zalo" style="display: none;"><i class="fas fa-comment-dots fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Thông tin</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="gioi-thieu.html" class="text-dark text-decoration-none">Giới thiệu công ty</a></li>
+                        <li><a href="chinh-sach-bao-mat.html" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="quy-che-hoat-dong.html" class="text-dark text-decoration-none">Quy chế hoạt động</a></li>
+                        <li><a href="kiem-tra-hoa-don.html" class="text-dark text-decoration-none">Kiểm tra hóa đơn</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Hỗ trợ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="huong-dan-mua-hang.html" class="text-dark text-decoration-none">Hướng dẫn mua hàng</a></li>
+                        <li><a href="huong-dan-thanh-toan.html" class="text-dark text-decoration-none">Hướng dẫn thanh toán</a></li>
+                        <li><a href="chinh-sach-doi-tra.html" class="text-dark text-decoration-none">Chính sách đổi trả</a></li>
+                        <li><a href="bao-hanh-sua-chua.html" class="text-dark text-decoration-none">Bảo hành & sửa chữa</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Liên hệ</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone"></i> Hotline: <span data-setting="hotline">1800.6789</span></li>
+                        <li><i class="fas fa-envelope"></i> Email: <span data-setting="email">info@thegioididong.com</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-setting="address">123 Đường ABC, Quận 1, TP.HCM</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-dark">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 <span data-setting="websiteName">Thế Giới Di Động</span>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary btn-floating">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/settings-loader.js"></script>
+    <script src="js/auth-api.js"></script>
+    <script src="js/main-api.js?v=3.0"></script>
+    <script src="js/product-detail.js"></script>
+    <script>
+        // Initialize logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoContainer = document.getElementById('logoContainer');
+            if (logoContainer) {
+                logoContainer.innerHTML = createLogo();
+            }
+        });
+    </script>
+</body>
+</html>

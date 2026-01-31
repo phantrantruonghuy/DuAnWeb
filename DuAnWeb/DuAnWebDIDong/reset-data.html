@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Dữ Liệu - Thế Giới Di Động</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .reset-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+        .btn-custom {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: #d1e7dd;
+            border: 2px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="reset-container">
+        <div class="text-center mb-4">
+            <i class="fas fa-database fa-4x text-primary mb-3"></i>
+            <h2>Reset Dữ Liệu Hệ Thống</h2>
+            <p class="text-muted">Khôi phục dữ liệu mặc định cho dự án</p>
+        </div>
+
+        <div class="warning-box">
+            <h5><i class="fas fa-exclamation-triangle text-warning"></i> Cảnh báo</h5>
+            <p class="mb-0">
+                Thao tác này sẽ xóa <strong>TẤT CẢ</strong> dữ liệu hiện tại trong localStorage và khôi phục về dữ liệu mẫu mặc định:
+            </p>
+            <ul class="mb-0 mt-2">
+                <li>Sản phẩm (products)</li>
+                <li>Đơn hàng (orders)</li>
+                <li>Khách hàng (customers)</li>
+                <li>Đánh giá (reviews)</li>
+                <li>Giỏ hàng (cart)</li>
+                <li>Tài khoản đăng nhập</li>
+            </ul>
+        </div>
+
+        <div class="success-box" id="successBox">
+            <h5><i class="fas fa-check-circle text-success"></i> Thành công!</h5>
+            <p class="mb-0">Đã khôi phục dữ liệu mặc định thành công. Vui lòng tải lại trang để thấy thay đổi.</p>
+        </div>
+
+        <div class="d-grid gap-3">
+            <button class="btn btn-danger btn-custom" onclick="resetAllData()">
+                <i class="fas fa-sync-alt"></i> Reset Tất Cả Dữ Liệu
+            </button>
+            <button class="btn btn-warning btn-custom" onclick="resetProductsOnly()">
+                <i class="fas fa-box"></i> Reset Chỉ Sản Phẩm
+            </button>
+            <button class="btn btn-secondary btn-custom" onclick="clearAllData()">
+                <i class="fas fa-trash"></i> Xóa Toàn Bộ Dữ Liệu
+            </button>
+            <a href="index.html" class="btn btn-outline-primary btn-custom">
+                <i class="fas fa-home"></i> Về Trang Chủ
+            </a>
+        </div>
+
+        <div class="mt-4 text-center">
+            <small class="text-muted">
+                <i class="fas fa-info-circle"></i> 
+                Công cụ này chỉ dùng khi chuyển dự án sang máy mới hoặc muốn reset về dữ liệu ban đầu
+            </small>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        function resetAllData() {
+            if (!confirm('Bạn có chắc chắn muốn reset TẤT CẢ dữ liệu về mặc định?\n\nHành động này không thể hoàn tác!')) {
+                return;
+            }
+
+            // Xóa toàn bộ localStorage
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Khôi phục dữ liệu sản phẩm mặc định
+            if (typeof products !== 'undefined') {
+                localStorage.setItem('products', JSON.stringify(products));
+                console.log('✓ Đã khôi phục dữ liệu sản phẩm');
+            }
+
+            // Hiển thị thông báo thành công
+            document.getElementById('successBox').style.display = 'block';
+            
+            // Tự động reload sau 2 giây
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        }
+
+        function resetProductsOnly() {
+            if (!confirm('Bạn có chắc chắn muốn reset dữ liệu SÁN PHẨM về mặc định?')) {
+                return;
+            }
+
+            // Chỉ reset sản phẩm
+            if (typeof products !== 'undefined') {
+                localStorage.setItem('products', JSON.stringify(products));
+                console.log('✓ Đã khôi phục dữ liệu sản phẩm');
+                
+                // Hiển thị thông báo thành công
+                document.getElementById('successBox').style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                alert('Không tìm thấy dữ liệu sản phẩm mặc định!');
+            }
+        }
+
+        function clearAllData() {
+            if (!confirm('Bạn có chắc chắn muốn XÓA TOÀN BỘ dữ liệu?\n\nHành động này sẽ xóa tất cả mà không khôi phục!')) {
+                return;
+            }
+
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            alert('Đã xóa toàn bộ dữ liệu!');
+            window.location.reload();
+        }
+
+        // Hiển thị thông tin localStorage hiện tại
+        console.log('=== THÔNG TIN LOCALSTORAGE ===');
+        console.log('Products:', localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products')).length + ' sản phẩm' : 'Chưa có');
+        console.log('Orders:', localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')).length + ' đơn hàng' : 'Chưa có');
+        console.log('Customers:', localStorage.getItem('customers') ? JSON.parse(localStorage.getItem('customers')).length + ' khách hàng' : 'Chưa có');
+        console.log('Reviews:', localStorage.getItem('reviews') ? JSON.parse(localStorage.getItem('reviews')).length + ' đánh giá' : 'Chưa có');
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

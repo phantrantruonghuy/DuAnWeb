@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup MySQL - Thế Giới Di Động</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 50px 0;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+        .step-card {
+            transition: transform 0.3s;
+        }
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .btn-action {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="text-center text-white mb-5">
+            <i class="fas fa-database fa-5x mb-3"></i>
+            <h1 class="fw-bold">Setup MySQL Database</h1>
+            <p class="lead">Chuyển từ LocalStorage sang MySQL trong 4 bước đơn giản</p>
+        </div>
+
+        <!-- Steps -->
+        <div class="row">
+            <!-- Step 1 -->
+            <div class="col-md-6 mb-4">
+                <div class="card step-card h-100">
+                    <div class="card-body p-4">
+                        <div class="step-number mx-auto">1</div>
+                        <h4 class="text-center mb-3">Import Sản phẩm</h4>
+                        <p class="text-muted text-center mb-4">
+                            Thêm 10 sản phẩm mẫu vào MySQL database
+                        </p>
+                        <div class="d-grid gap-2">
+                            <a href="database/import_all_products.php" class="btn btn-primary btn-action" target="_blank">
+                                <i class="fas fa-download"></i> Import Sản phẩm
+                            </a>
+                            <a href="database/import_all_products.php?reset=true" class="btn btn-outline-danger btn-action" target="_blank">
+                                <i class="fas fa-redo"></i> Reset & Import lại
+                            </a>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle"></i> Chạy 1 lần duy nhất
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-6 mb-4">
+                <div class="card step-card h-100">
+                    <div class="card-body p-4">
+                        <div class="step-number mx-auto">2</div>
+                        <h4 class="text-center mb-3">Xóa LocalStorage</h4>
+                        <p class="text-muted text-center mb-4">
+                            Xóa dữ liệu cũ để load từ MySQL
+                        </p>
+                        <div class="d-grid gap-2">
+                            <a href="clear-localstorage.html" class="btn btn-warning btn-action">
+                                <i class="fas fa-trash-alt"></i> Xóa LocalStorage
+                            </a>
+                            <button class="btn btn-outline-secondary btn-action" onclick="clearNow()">
+                                <i class="fas fa-bolt"></i> Xóa ngay (Console)
+                            </button>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle"></i> Xóa dữ liệu tạm thời
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-6 mb-4">
+                <div class="card step-card h-100">
+                    <div class="card-body p-4">
+                        <div class="step-number mx-auto">3</div>
+                        <h4 class="text-center mb-3">Kiểm tra API</h4>
+                        <p class="text-muted text-center mb-4">
+                            Test API hoạt động đúng không
+                        </p>
+                        <div class="d-grid gap-2">
+                            <a href="api/products.php" class="btn btn-success btn-action" target="_blank">
+                                <i class="fas fa-box"></i> Test Products API
+                            </a>
+                            <a href="test-register.html" class="btn btn-info btn-action" target="_blank">
+                                <i class="fas fa-user-plus"></i> Test Register API
+                            </a>
+                            <a href="http://localhost/phpmyadmin" class="btn btn-outline-primary btn-action" target="_blank">
+                                <i class="fas fa-database"></i> Mở phpMyAdmin
+                            </a>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle"></i> Phải thấy dữ liệu JSON
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="col-md-6 mb-4">
+                <div class="card step-card h-100">
+                    <div class="card-body p-4">
+                        <div class="step-number mx-auto">4</div>
+                        <h4 class="text-center mb-3">Hoàn thành!</h4>
+                        <p class="text-muted text-center mb-4">
+                            Xóa cache và test website
+                        </p>
+                        <div class="d-grid gap-2">
+                            <a href="index.html" class="btn btn-primary btn-action">
+                                <i class="fas fa-home"></i> Về Trang chủ
+                            </a>
+                            <a href="login.html" class="btn btn-outline-primary btn-action">
+                                <i class="fas fa-sign-in-alt"></i> Test Đăng nhập
+                            </a>
+                            <a href="sanpham.html" class="btn btn-outline-primary btn-action">
+                                <i class="fas fa-mobile-alt"></i> Xem Sản phẩm
+                            </a>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle"></i> Nhớ xóa cache (Ctrl+F5)
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation -->
+        <div class="card">
+            <div class="card-body p-4">
+                <h4 class="mb-4">
+                    <i class="fas fa-book"></i> Tài liệu hướng dẫn
+                </h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <a href="BAT_DAU_SU_DUNG_MYSQL.md" class="btn btn-outline-primary w-100" target="_blank">
+                            <i class="fas fa-rocket"></i> Bắt đầu sử dụng MySQL
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="HUONG_DAN_IMPORT_DATA.md" class="btn btn-outline-success w-100" target="_blank">
+                            <i class="fas fa-file-import"></i> Hướng dẫn Import
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="API_DOCUMENTATION.md" class="btn btn-outline-info w-100" target="_blank">
+                            <i class="fas fa-code"></i> API Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Check -->
+        <div class="card mt-4">
+            <div class="card-body p-4">
+                <h4 class="mb-4">
+                    <i class="fas fa-check-circle"></i> Kiểm tra trạng thái
+                </h4>
+                <div id="statusCheck">
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="checkStatus()">
+                            <i class="fas fa-sync"></i> Kiểm tra ngay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Clear LocalStorage now
+        function clearNow() {
+            Swal.fire({
+                title: 'Xóa LocalStorage?',
+                text: 'Dữ liệu tạm thời sẽ bị xóa',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear();
+                    Swal.fire({
+                        title: 'Đã xóa!',
+                        text: 'LocalStorage đã được xóa sạch',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        // Check status
+        async function checkStatus() {
+            const statusDiv = document.getElementById('statusCheck');
+            statusDiv.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i><p>Đang kiểm tra...</p></div>';
+
+            const checks = [
+                { name: 'LocalStorage Products', check: () => !localStorage.getItem('products'), icon: 'fa-box' },
+                { name: 'LocalStorage Users', check: () => !localStorage.getItem('customers'), icon: 'fa-users' },
+                { name: 'API Products', check: async () => {
+                    try {
+                        const res = await fetch('api/products.php');
+                        const data = await res.json();
+                        return data.success && data.data.length > 0;
+                    } catch {
+                        return false;
+                    }
+                }, icon: 'fa-database' }
+            ];
+
+            let html = '<div class="row">';
+            
+            for (const item of checks) {
+                const result = typeof item.check === 'function' ? await item.check() : item.check();
+                const status = result ? 'success' : 'danger';
+                const icon = result ? 'fa-check-circle' : 'fa-times-circle';
+                
+                html += `
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                            <i class="fas ${item.icon} fa-2x mb-2 text-${status}"></i>
+                            <p class="mb-1"><strong>${item.name}</strong></p>
+                            <span class="badge bg-${status} status-badge">
+                                <i class="fas ${icon}"></i> ${result ? 'OK' : 'Chưa OK'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            statusDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+/* ==================== CUSTOM CSS (CHỈ NHỮNG GÌ BOOTSTRAP KHÔNG CÓ) ==================== */
+/* Bootstrap đã có reset CSS, chỉ cần override màu primary */
+
+:root {
+    --bs-primary: #0066cc;
+    --bs-primary-rgb: 0, 102, 204;
+}
+
+/* Override màu primary của Bootstrap */
+.btn-primary {
+    --bs-btn-bg: #0066cc;
+    --bs-btn-border-color: #0066cc;
+    --bs-btn-hover-bg: #0052a3;
+    --bs-btn-hover-border-color: #0052a3;
+}
+
+.text-primary {
+    color: #0066cc !important;
+}
+
+.bg-primary {
+    background-color: #0066cc !important;
+}
+
+.border-primary {
+    border-color: #0066cc !important;
+}
+
+/* Override màu primary của Bootstrap */
+.btn-primary {
+    --bs-btn-bg: #0066cc;
+    --bs-btn-border-color: #0066cc;
+    --bs-btn-hover-bg: #0052a3;
+    --bs-btn-hover-border-color: #0052a3;
+}
+
+.text-primary {
+    color: #0066cc !important;
+}
+
+.bg-primary {
+    background-color: #0066cc !important;
+}
+
+.border-primary {
+    border-color: #0066cc !important;
+}
+
+/* ==================== SWIPER SLIDER CUSTOMIZATION ==================== */
+/* Bootstrap không có slider, cần giữ Swiper styles */
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #fff !important;
+    background: rgba(0, 0, 0, 0.3);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 20px;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+    background: #0066cc;
+    opacity: 1;
+    width: 30px;
+    border-radius: 6px;
+}
+
+/* ==================== ANIMATIONS (Bootstrap không có) ==================== */
+
+@keyframes floatAnimation {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.banner-product-image {
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+@keyframes pulseAnimation {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.flash-sale-banner {
+    animation: pulseAnimation 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 102, 204, 0.2);
+    border-top-color: #0066cc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ==================== PRODUCT CARD IMAGE (Giữ nguyên để hiển thị ảnh đẹp) ==================== */
+
+.product-card img {
+    height: 250px;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Position badges (HOT, discount) on top of product image */
+.product-card {
+    position: relative;
+}
+.product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+    padding: 6px 8px;
+    font-weight: 700;
+    border-radius: 6px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    font-size: 0.8rem;
+}
+.product-card .product-badge + .product-badge {
+    left: 10px; /* second badge will be moved via inline style in JS */
+}
+
+/* Flash sale banner styles */
+.flash-sale-banner {
+    background: linear-gradient(90deg, #ff6b6b, #ff8a00);
+    margin-bottom: 18px;
+}
+.flash-sale-banner .flash-icon {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.flash-sale-banner h4, .flash-sale-banner .text-white {
+    color: #fff;
+}
+.flash-sale-banner .btn-warning {
+    background: #fff;
+    color: #ff6b6b;
+    border: none;
+    font-weight: 700;
+}
+.flash-sale-banner .btn-warning:hover {
+    background: #ffeedd;
+}
+
+/* ==================== TEXT TRUNCATE (Bootstrap có nhưng cần custom cho 2 dòng) ==================== */
+
+.product-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 48px;
+}
+
+/* ==================== COUNTDOWN CONTAINER ==================== */
+
+.countdown-container {
+    font-size: 0.9rem;
+}
+
+.countdown-container .badge {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+@media (max-width: 576px) {
+    .countdown-container {
+        font-size: 0.8rem;
+    }
+    .countdown-container .badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+    background: #0066cc;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #004a99;
+}
+
+/* ==================== RATING STARS (Bootstrap không có) ==================== */
+
+.rating-star {
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.rating-star:hover,
+.rating-star.active {
+    color: #ffc107;
+}
+
+/* ==================== STICKY FILTER SIDEBAR ==================== */
+
+.filter-sidebar {
+    position: sticky;
+    top: 80px;
+}
+
+/* ==================== PRODUCT SECTIONS ==================== */
+
+.products-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    margin: 20px 0;
+    padding: 40px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.products-section h3 {
+    color: #333;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.products-section .btn {
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.products-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ==================== ADDITIONAL LINKS FOOTER ==================== */
+
+.additional-links-footer {
+    border-top: 1px solid #495057;
+}
+
+.additional-links-footer a:hover {
+    color: #ffc107 !important;
+    text-decoration: underline;
+}
+
+/* ==================== HẾT - CHỈ GIỮ NHỮNG GÌ BOOTSTRAP KHÔNG CÓ ==================== */
+
+/* ==================== BRAND CARD HOVER EFFECT ==================== */
+
+.hover-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ==================== SPARKLE EFFECT FOR REALME ==================== */
+
+@keyframes sparkle {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+/* ==================== BRANDS CONNECTORS (Đường nối, dấu chấm - hiệu ứng bậc thang) ==================== */
+.brands-row {
+    position: relative;
+}
+.brands-row > [class*="col-"] {
+    position: relative;
+}
+.brands-row > .col-6.col-md-2:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -15px;
+    width: 30px;
+    height: 0;
+    border-bottom: 2px dotted #cfcfcf;
+    transform: translateY(-50%);
+}
+/* Tạo hiệu ứng "bậc thang" bằng cách điều chỉnh vị trí top cho các phần tử theo chu kỳ */
+.brands-row > .col-6.col-md-2:nth-child(4n+1)::after { top: 40%; }
+.brands-row > .col-6.col-md-2:nth-child(4n+2)::after { top: 55%; }
+.brands-row > .col-6.col-md-2:nth-child(4n+3)::after { top: 45%; }
+.brands-row > .col-6.col-md-2:nth-child(4n+4)::after { top: 60%; }
+
+/* Ẩn đường nối trên màn hình nhỏ để tránh vỡ layout */
+@media (max-width: 767px) {
+    .brands-row > .col-6.col-md-2::after {
+        display: none;
+    }
+}
+
+/* ==================== BRANDS MARQUEE (chạy qua lại - queue) ==================== */
+.brands-marquee {
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+}
+.brands-track {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    animation: marqueeScroll 18s linear infinite;
+}
+.brands-track.paused {
+    animation-play-state: paused;
+}
+.brand-item {
+    flex: 0 0 auto;
+    width: 140px;
+}
+.brand-item .card {
+    border-radius: 8px;
+}
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 767px) {
+    .brand-item { width: 110px; }
+    .brands-track { gap: 12px; animation-duration: 12s; }
+}

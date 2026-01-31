@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export/Import Dữ Liệu - Thế Giới Di Động</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f5f5f5; }
+        .card { border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .stats-card { background: linear-gradient(135deg, #0066cc, #004499); color: white; }
+        .btn-export { background: #28a745; border: none; }
+        .btn-import { background: #0066cc; border: none; }
+        .data-preview { max-height: 300px; overflow-y: auto; background: #1e1e1e; color: #d4d4d4; font-family: monospace; font-size: 12px; }
+        .key-badge { font-size: 11px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark" style="background: #0066cc;">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-mobile-alt me-2"></i>Thế Giới Di Động
+            </a>
+            <a href="admin.html" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left me-1"></i> Quay lại Admin
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <h2 class="mb-4"><i class="fas fa-database me-2"></i>Export/Import Dữ Liệu LocalStorage</h2>
+        
+        <!-- Thống kê -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <h5><i class="fas fa-chart-bar me-2"></i>Thống kê dữ liệu hiện tại</h5>
+                        <div class="row mt-3" id="statsContainer">
+                            <div class="col text-center">
+                                <div class="fs-3 fw-bold" id="statProducts">0</div>
+                                <small>Sản phẩm</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="fs-3 fw-bold" id="statAccessories">0</div>
+                                <small>Phụ kiện</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="fs-3 fw-bold" id="statOrders">0</div>
+                                <small>Đơn hàng</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="fs-3 fw-bold" id="statUsers">0</div>
+                                <small>Users</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="fs-3 fw-bold" id="statReviews">0</div>
+                                <small>Đánh giá</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="fs-3 fw-bold" id="statTotal">0</div>
+                                <small>Tổng keys</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Export -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-download me-2"></i>Export Dữ Liệu</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Xuất toàn bộ dữ liệu localStorage ra file JSON để backup hoặc chuyển sang trình duyệt khác.</p>
+                        
+
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Chọn dữ liệu cần export:</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="products" id="expProducts" checked>
+                                        <label class="form-check-label" for="expProducts">Sản phẩm</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="accessories" id="expAccessories" checked>
+                                        <label class="form-check-label" for="expAccessories">Phụ kiện</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="orders" id="expOrders" checked>
+                                        <label class="form-check-label" for="expOrders">Đơn hàng</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="users" id="expUsers" checked>
+                                        <label class="form-check-label" for="expUsers">Users</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="customers" id="expCustomers" checked>
+                                        <label class="form-check-label" for="expCustomers">Khách hàng</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="reviews" id="expReviews" checked>
+                                        <label class="form-check-label" for="expReviews">Đánh giá</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="banners" id="expBanners" checked>
+                                        <label class="form-check-label" for="expBanners">Banners</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="categories" id="expCategories" checked>
+                                        <label class="form-check-label" for="expCategories">Danh mục</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="brands" id="expBrands" checked>
+                                        <label class="form-check-label" for="expBrands">Thương hiệu</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="vouchers" id="expVouchers" checked>
+                                        <label class="form-check-label" for="expVouchers">Vouchers</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input export-check" type="checkbox" value="settings" id="expSettings" checked>
+                                        <label class="form-check-label" for="expSettings">Cài đặt</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-success flex-fill" onclick="exportData()">
+                                <i class="fas fa-download me-2"></i>Export JSON
+                            </button>
+                            <button class="btn btn-outline-success" onclick="selectAllExport(true)">Chọn tất cả</button>
+                            <button class="btn btn-outline-secondary" onclick="selectAllExport(false)">Bỏ chọn</button>
+                        </div>
+                        <button class="btn btn-warning w-100" onclick="exportDataWithImages()" id="btnExportImages">
+                            <i class="fas fa-images me-2"></i>Export JSON + Ảnh (Base64)
+                        </button>
+                        <div id="exportProgress" class="mt-2" style="display: none;">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" style="width: 0%"></div>
+                            </div>
+                            <small class="text-muted" id="progressText">Đang xử lý...</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Import -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-upload me-2"></i>Import Dữ Liệu</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Nhập dữ liệu từ file JSON đã export trước đó.</p>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Chọn file JSON:</label>
+                            <input type="file" class="form-control" id="importFile" accept=".json">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Chế độ import:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="importMode" id="modeMerge" value="merge" checked>
+                                <label class="form-check-label" for="modeMerge">
+                                    <strong>Gộp dữ liệu</strong> - Giữ dữ liệu cũ, thêm dữ liệu mới
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="importMode" id="modeReplace" value="replace">
+                                <label class="form-check-label" for="modeReplace">
+                                    <strong>Thay thế</strong> - Xóa dữ liệu cũ, dùng dữ liệu mới
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning py-2">
+                            <i class="fas fa-exclamation-triangle me-1"></i>
+                            <small>Lưu ý: Nên backup dữ liệu hiện tại trước khi import!</small>
+                        </div>
+                        
+                        <button class="btn btn-primary w-100" onclick="importData()">
+                            <i class="fas fa-upload me-2"></i>Import Dữ Liệu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Xem trước dữ liệu</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Chọn key để xem:</label>
+                    <select class="form-select" id="previewKey" onchange="previewData()">
+                        <option value="">-- Chọn --</option>
+                        <option value="products">products</option>
+                        <option value="accessories">accessories</option>
+                        <option value="orders">orders</option>
+                        <option value="users">users</option>
+                        <option value="customers">customers</option>
+                        <option value="reviews">reviews</option>
+                        <option value="banners">banners</option>
+                        <option value="categories">categories</option>
+                        <option value="brands">brands</option>
+                        <option value="paymentMethods">paymentMethods</option>
+                        <option value="vouchers">vouchers</option>
+                        <option value="settings">settings</option>
+                    </select>
+                </div>
+                <pre class="data-preview p-3 rounded" id="dataPreview">Chọn key để xem dữ liệu...</pre>
+            </div>
+        </div>
+
+
+
+        <!-- Danger Zone -->
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Vùng nguy hiểm</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Xóa toàn bộ dữ liệu</strong></p>
+                        <p class="text-muted small">Xóa tất cả dữ liệu trong localStorage. Hành động này không thể hoàn tác!</p>
+                        <button class="btn btn-outline-danger" onclick="clearAllData()">
+                            <i class="fas fa-trash me-2"></i>Xóa tất cả
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Reset về mặc định</strong></p>
+                        <p class="text-muted small">Xóa dữ liệu và khôi phục sản phẩm mặc định từ code.</p>
+                        <button class="btn btn-outline-warning" onclick="resetToDefault()">
+                            <i class="fas fa-undo me-2"></i>Reset mặc định
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Danh sách keys
+        const ALL_KEYS = ['products', 'accessories', 'orders', 'users', 'customers', 'reviews', 'banners', 'categories', 'brands', 'paymentMethods', 'vouchers', 'settings'];
+        
+        // Load thống kê
+        function loadStats() {
+            const getCount = (key) => {
+                const data = localStorage.getItem(key);
+                if (!data) return 0;
+                try {
+                    const parsed = JSON.parse(data);
+                    return Array.isArray(parsed) ? parsed.length : 1;
+                } catch { return 0; }
+            };
+            
+            document.getElementById('statProducts').textContent = getCount('products');
+            document.getElementById('statAccessories').textContent = getCount('accessories');
+            document.getElementById('statOrders').textContent = getCount('orders');
+            document.getElementById('statUsers').textContent = getCount('users');
+            document.getElementById('statReviews').textContent = getCount('reviews');
+            
+            let total = 0;
+            ALL_KEYS.forEach(key => { if (localStorage.getItem(key)) total++; });
+            document.getElementById('statTotal').textContent = total;
+        }
+        
+        // Hàm chuyển đổi URL ảnh thành Base64 sử dụng canvas
+        function imageUrlToBase64(url) {
+            return new Promise((resolve) => {
+                if (!url) {
+                    resolve(url);
+                    return;
+                }
+                if (url.startsWith('data:')) {
+                    resolve(url);
+                    return;
+                }
+                
+                const img = new Image();
+                img.crossOrigin = 'anonymous'; // Cho phép CORS
+                
+                img.onload = function() {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth;
+                        canvas.height = img.naturalHeight;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        const base64 = canvas.toDataURL('image/jpeg', 0.8);
+                        resolve(base64);
+                    } catch (e) {
+                        console.warn('Canvas error:', url, e.message);
+                        resolve(url); // Giữ URL gốc nếu lỗi
+                    }
+                };
+                
+                img.onerror = function() {
+                    console.warn('Không thể tải ảnh:', url);
+                    resolve(url); // Giữ URL gốc nếu không tải được
+                };
+                
+                // Thêm timestamp để bypass cache
+                const separator = url.includes('?') ? '&' : '?';
+                img.src = url + separator + '_t=' + Date.now();
+            });
+        }
+        
+        // Export
+        function exportData() {
+            const selectedKeys = [];
+            document.querySelectorAll('.export-check:checked').forEach(cb => {
+                selectedKeys.push(cb.value);
+            });
+            
+            if (selectedKeys.length === 0) {
+                alert('Vui lòng chọn ít nhất 1 loại dữ liệu!');
+                return;
+            }
+            
+            const exportObj = {
+                exportDate: new Date().toISOString(),
+                exportDateVN: new Date().toLocaleString('vi-VN'),
+                version: '1.0',
+                includesImages: false,
+                data: {}
+            };
+            
+            selectedKeys.forEach(key => {
+                const value = localStorage.getItem(key);
+                if (value) {
+                    try {
+                        exportObj.data[key] = JSON.parse(value);
+                    } catch {
+                        exportObj.data[key] = value;
+                    }
+                }
+            });
+            
+            // Thêm cart của users
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('cart_')) {
+                    const value = localStorage.getItem(key);
+                    if (value) {
+                        try {
+                            exportObj.data[key] = JSON.parse(value);
+                        } catch {
+                            exportObj.data[key] = value;
+                        }
+                    }
+                }
+            }
+            
+            // Download
+            const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Export thành công! File đã được tải xuống.');
+        }
+        
+        // Export kèm ảnh Base64
+        async function exportDataWithImages() {
+            const selectedKeys = [];
+            document.querySelectorAll('.export-check:checked').forEach(cb => {
+                selectedKeys.push(cb.value);
+            });
+            
+            if (selectedKeys.length === 0) {
+                alert('Vui lòng chọn ít nhất 1 loại dữ liệu!');
+                return;
+            }
+            
+            const btn = document.getElementById('btnExportImages');
+            const progressDiv = document.getElementById('exportProgress');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang xử lý...';
+            progressDiv.style.display = 'block';
+            
+            const exportObj = {
+                exportDate: new Date().toISOString(),
+                exportDateVN: new Date().toLocaleString('vi-VN'),
+                version: '1.0',
+                includesImages: true,
+                data: {}
+            };
+            
+            // Lấy dữ liệu
+            selectedKeys.forEach(key => {
+                const value = localStorage.getItem(key);
+                if (value) {
+                    try {
+                        exportObj.data[key] = JSON.parse(value);
+                    } catch {
+                        exportObj.data[key] = value;
+                    }
+                }
+            });
+            
+            // Thêm cart của users
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('cart_')) {
+                    const value = localStorage.getItem(key);
+                    if (value) {
+                        try {
+                            exportObj.data[key] = JSON.parse(value);
+                        } catch {
+                            exportObj.data[key] = value;
+                        }
+                    }
+                }
+            }
+            
+            // Đếm tổng số ảnh
+            let totalImages = 0;
+            let processedImages = 0;
+            let convertedImages = 0;
+            let failedImages = 0;
+            
+            if (exportObj.data.products) totalImages += exportObj.data.products.length;
+            if (exportObj.data.banners) totalImages += exportObj.data.banners.length;
+            if (exportObj.data.brands) totalImages += exportObj.data.brands.length;
+            
+            const updateProgress = (status) => {
+                const percent = totalImages > 0 ? Math.round((processedImages / totalImages) * 100) : 0;
+                progressBar.style.width = percent + '%';
+                progressText.textContent = `${status}: ${processedImages}/${totalImages} (✓${convertedImages} ✗${failedImages})`;
+            };
+            
+            // Hàm xử lý từng ảnh với timeout và CORS proxy
+            const processImage = async (url) => {
+                if (!url || url.startsWith('data:')) {
+                    return { result: url, converted: false };
+                }
+                
+                // Thử load ảnh trực tiếp trước
+                const tryLoadImage = (imgUrl) => {
+                    return new Promise((resolve) => {
+                        const timeout = setTimeout(() => {
+                            resolve({ result: null, converted: false });
+                        }, 5000);
+                        
+                        const img = new Image();
+                        img.crossOrigin = 'anonymous';
+                        
+                        img.onload = function() {
+                            clearTimeout(timeout);
+                            try {
+                                const canvas = document.createElement('canvas');
+                                canvas.width = img.naturalWidth;
+                                canvas.height = img.naturalHeight;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0);
+                                const base64 = canvas.toDataURL('image/jpeg', 0.8);
+                                resolve({ result: base64, converted: true });
+                            } catch (e) {
+                                resolve({ result: null, converted: false });
+                            }
+                        };
+                        
+                        img.onerror = function() {
+                            clearTimeout(timeout);
+                            resolve({ result: null, converted: false });
+                        };
+                        
+                        img.src = imgUrl;
+                    });
+                };
+                
+                // Thử load trực tiếp
+                let result = await tryLoadImage(url);
+                if (result.converted) {
+                    return result;
+                }
+                
+                // Thử qua CORS proxy (corsproxy.io)
+                const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+                result = await tryLoadImage(proxyUrl);
+                if (result.converted) {
+                    return result;
+                }
+                
+                // Thử qua CORS proxy khác (api.allorigins.win)
+                const proxyUrl2 = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+                result = await tryLoadImage(proxyUrl2);
+                if (result.converted) {
+                    return result;
+                }
+                
+                // Không thể chuyển đổi, giữ URL gốc
+                return { result: url, converted: false };
+            };
+            
+            try {
+                // Chuyển đổi ảnh products
+                if (exportObj.data.products && Array.isArray(exportObj.data.products)) {
+                    for (let i = 0; i < exportObj.data.products.length; i++) {
+                        if (exportObj.data.products[i].image) {
+                            const { result, converted } = await processImage(exportObj.data.products[i].image);
+                            exportObj.data.products[i].image = result;
+                            if (converted) convertedImages++;
+                            else if (exportObj.data.products[i].image && !exportObj.data.products[i].image.startsWith('data:')) failedImages++;
+                        }
+                        processedImages++;
+                        updateProgress('Sản phẩm');
+                    }
+                }
+                
+                // Chuyển đổi ảnh banners
+                if (exportObj.data.banners && Array.isArray(exportObj.data.banners)) {
+                    for (let i = 0; i < exportObj.data.banners.length; i++) {
+                        if (exportObj.data.banners[i].image) {
+                            const { result, converted } = await processImage(exportObj.data.banners[i].image);
+                            exportObj.data.banners[i].image = result;
+                            if (converted) convertedImages++;
+                            else if (exportObj.data.banners[i].image && !exportObj.data.banners[i].image.startsWith('data:')) failedImages++;
+                        }
+                        processedImages++;
+                        updateProgress('Banners');
+                    }
+                }
+                
+                // Chuyển đổi logo brands
+                if (exportObj.data.brands && Array.isArray(exportObj.data.brands)) {
+                    for (let i = 0; i < exportObj.data.brands.length; i++) {
+                        if (exportObj.data.brands[i].logo) {
+                            const { result, converted } = await processImage(exportObj.data.brands[i].logo);
+                            exportObj.data.brands[i].logo = result;
+                            if (converted) convertedImages++;
+                            else if (exportObj.data.brands[i].logo && !exportObj.data.brands[i].logo.startsWith('data:')) failedImages++;
+                        }
+                        processedImages++;
+                        updateProgress('Brands');
+                    }
+                }
+                
+                // Download
+                const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup-with-images-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                progressBar.style.width = '100%';
+                progressBar.classList.remove('progress-bar-animated');
+                progressBar.classList.add('bg-success');
+                progressText.textContent = '✅ Hoàn thành!';
+                
+                let message = `✅ Export thành công!\n\n`;
+                message += `📦 Tổng: ${totalImages} ảnh\n`;
+                message += `✓ Đã chuyển đổi: ${convertedImages} ảnh\n`;
+                if (failedImages > 0) {
+                    message += `✗ Không chuyển được (CORS): ${failedImages} ảnh\n\n`;
+                    message += `⚠️ Ảnh từ CDN bên ngoài (cdn.tgdd.vn) không thể chuyển đổi do chính sách CORS.\n`;
+                    message += `Những ảnh này vẫn giữ URL gốc và sẽ hiển thị khi có internet.`;
+                }
+                
+                alert(message);
+            } catch (error) {
+                alert('❌ Có lỗi xảy ra: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-images me-2"></i>Export JSON + Ảnh (Base64)';
+                setTimeout(() => {
+                    progressDiv.style.display = 'none';
+                    progressBar.style.width = '0%';
+                    progressBar.classList.add('progress-bar-animated');
+                    progressBar.classList.remove('bg-success');
+                }, 3000);
+            }
+        }
+        
+        // Import
+        function importData() {
+            const fileInput = document.getElementById('importFile');
+            const mode = document.querySelector('input[name="importMode"]:checked').value;
+            
+            if (!fileInput.files[0]) {
+                alert('Vui lòng chọn file JSON!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importObj = JSON.parse(e.target.result);
+                    const data = importObj.data || importObj;
+                    
+                    let importedCount = 0;
+                    
+                    Object.keys(data).forEach(key => {
+                        if (mode === 'replace') {
+                            localStorage.setItem(key, JSON.stringify(data[key]));
+                            importedCount++;
+                        } else {
+                            // Merge mode
+                            const existing = localStorage.getItem(key);
+                            if (!existing) {
+                                localStorage.setItem(key, JSON.stringify(data[key]));
+                            } else if (Array.isArray(data[key])) {
+                                const existingArr = JSON.parse(existing);
+                                const merged = [...existingArr];
+                                data[key].forEach(item => {
+                                    if (!merged.find(m => m.id === item.id)) {
+                                        merged.push(item);
+                                    }
+                                });
+                                localStorage.setItem(key, JSON.stringify(merged));
+                            }
+                            importedCount++;
+                        }
+                    });
+                    
+                    alert(`✅ Import thành công! Đã import ${importedCount} keys.`);
+                    loadStats();
+                } catch (err) {
+                    alert('❌ Lỗi: File JSON không hợp lệ!\n' + err.message);
+                }
+            };
+            reader.readAsText(fileInput.files[0]);
+        }
+        
+        // Preview
+        function previewData() {
+            const key = document.getElementById('previewKey').value;
+            const preview = document.getElementById('dataPreview');
+            
+            if (!key) {
+                preview.textContent = 'Chọn key để xem dữ liệu...';
+                return;
+            }
+            
+            const data = localStorage.getItem(key);
+            if (!data) {
+                preview.textContent = `Key "${key}" không có dữ liệu.`;
+                return;
+            }
+            
+            try {
+                const parsed = JSON.parse(data);
+                preview.textContent = JSON.stringify(parsed, null, 2);
+            } catch {
+                preview.textContent = data;
+            }
+        }
+        
+        // Select all export
+        function selectAllExport(checked) {
+            document.querySelectorAll('.export-check').forEach(cb => cb.checked = checked);
+        }
+        
+        // Clear all
+        function clearAllData() {
+            if (!confirm('⚠️ Bạn có chắc muốn XÓA TẤT CẢ dữ liệu?\n\nHành động này KHÔNG THỂ hoàn tác!')) return;
+            if (!confirm('⚠️ XÁC NHẬN LẦN CUỐI: Xóa toàn bộ dữ liệu?')) return;
+            
+            localStorage.clear();
+            alert('✅ Đã xóa toàn bộ dữ liệu!');
+            loadStats();
+        }
+        
+        // Reset to default
+        function resetToDefault() {
+            if (!confirm('⚠️ Reset về dữ liệu mặc định?\n\nDữ liệu hiện tại sẽ bị xóa!')) return;
+            
+            localStorage.clear();
+            
+            // Reload trang để main.js tự động tạo dữ liệu mặc định
+            alert('✅ Đã reset! Trang sẽ reload để khôi phục dữ liệu mặc định.');
+            location.reload();
+        }
+        
+        // Lấy tất cả URL ảnh từ localStorage
+        function getAllImageUrls() {
+            const urls = new Set();
+            
+            // Lấy ảnh từ products
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            products.forEach(p => {
+                if (p.image) urls.add(p.image);
+            });
+            
+            // Lấy ảnh từ banners
+            const banners = JSON.parse(localStorage.getItem('banners') || '[]');
+            banners.forEach(b => {
+                if (b.image) urls.add(b.image);
+            });
+            
+            // Lấy ảnh từ brands
+            const brands = JSON.parse(localStorage.getItem('brands') || '[]');
+            brands.forEach(b => {
+                if (b.logo) urls.add(b.logo);
+            });
+            
+            // Lấy ảnh từ orders
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.forEach(o => {
+                if (o.items) {
+                    o.items.forEach(item => {
+                        if (item.image) urls.add(item.image);
+                    });
+                }
+            });
+            
+            return Array.from(urls);
+        }
+        
+        // Hiển thị danh sách URL ảnh
+        function showImageUrls() {
+            const urls = getAllImageUrls();
+            const container = document.getElementById('imageUrlsContainer');
+            const textarea = document.getElementById('imageUrlsList');
+            const countBadge = document.getElementById('imageCount');
+            
+            container.style.display = 'block';
+            textarea.value = urls.join('\n');
+            countBadge.textContent = urls.length + ' ảnh';
+        }
+        
+        // Copy tất cả URL
+        function copyImageUrls() {
+            const textarea = document.getElementById('imageUrlsList');
+            textarea.select();
+            document.execCommand('copy');
+            alert('✅ Đã copy ' + getAllImageUrls().length + ' URL ảnh!');
+        }
+        
+        // Thay thế ảnh theo ID sản phẩm
+        async function replaceProductImage() {
+            const productId = parseInt(document.getElementById('productIdInput').value);
+            const fileInput = document.getElementById('singleImageInput');
+            
+            if (!productId) {
+                alert('Vui lòng nhập ID sản phẩm!');
+                return;
+            }
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('Vui lòng chọn file ảnh!');
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const productIndex = products.findIndex(p => p.id === productId);
+            
+            if (productIndex === -1) {
+                alert(`Không tìm thấy sản phẩm với ID: ${productId}`);
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                products[productIndex].image = e.target.result;
+                localStorage.setItem('products', JSON.stringify(products));
+                
+                alert(`✅ Đã thay thế ảnh cho sản phẩm "${products[productIndex].name}" (ID: ${productId})`);
+                
+                document.getElementById('productIdInput').value = '';
+                fileInput.value = '';
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // Tải danh sách URL ảnh
+        function downloadImageList() {
+            const urls = getAllImageUrls();
+            if (urls.length === 0) {
+                alert('Không có URL ảnh nào!');
+                return;
+            }
+            
+            let content = '# Danh sách URL ảnh sản phẩm\n';
+            content += '# Tải về: ' + new Date().toLocaleString('vi-VN') + '\n\n';
+            
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            
+            content += '## Sản phẩm:\n';
+            products.forEach(p => {
+                if (p.image && !p.image.startsWith('data:')) {
+                    content += `ID ${p.id}: ${p.name}\n`;
+                    content += `   ${p.image}\n\n`;
+                }
+            });
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `image-urls-${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ Đã tải danh sách ${urls.length} URL ảnh!\n\nBạn có thể dùng danh sách này để tải ảnh thủ công, sau đó upload lại vào hệ thống.`);
+        }
+        
+        // Xử lý ảnh local từ máy tính
+        async function processLocalImages() {
+            const input = document.getElementById('localImagesInput');
+            const resultDiv = document.getElementById('localImagesResult');
+            const resultText = document.getElementById('localImagesResultText');
+            
+            if (!input.files || input.files.length === 0) {
+                alert('Vui lòng chọn ít nhất 1 file ảnh!');
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const banners = JSON.parse(localStorage.getItem('banners') || '[]');
+            const brands = JSON.parse(localStorage.getItem('brands') || '[]');
+            
+            let replacedCount = 0;
+            
+            // Chuyển đổi file thành base64
+            const fileToBase64 = (file) => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => resolve(null);
+                    reader.readAsDataURL(file);
+                });
+            };
+            
+            // Xử lý từng file
+            for (const file of input.files) {
+                const base64 = await fileToBase64(file);
+                if (!base64) continue;
+                
+                const fileName = file.name.toLowerCase();
+                
+                // Tìm và thay thế trong products
+                for (let i = 0; i < products.length; i++) {
+                    if (products[i].image && products[i].image.toLowerCase().includes(fileName.replace(/\.[^.]+$/, ''))) {
+                        products[i].image = base64;
+                        replacedCount++;
+                    }
+                }
+                
+                // Tìm và thay thế trong banners
+                for (let i = 0; i < banners.length; i++) {
+                    if (banners[i].image && banners[i].image.toLowerCase().includes(fileName.replace(/\.[^.]+$/, ''))) {
+                        banners[i].image = base64;
+                        replacedCount++;
+                    }
+                }
+                
+                // Tìm và thay thế trong brands
+                for (let i = 0; i < brands.length; i++) {
+                    if (brands[i].logo && brands[i].logo.toLowerCase().includes(fileName.replace(/\.[^.]+$/, ''))) {
+                        brands[i].logo = base64;
+                        replacedCount++;
+                    }
+                }
+            }
+            
+            // Lưu lại vào localStorage
+            if (replacedCount > 0) {
+                localStorage.setItem('products', JSON.stringify(products));
+                localStorage.setItem('banners', JSON.stringify(banners));
+                localStorage.setItem('brands', JSON.stringify(brands));
+            }
+            
+            resultDiv.style.display = 'block';
+            if (replacedCount > 0) {
+                resultText.textContent = `Đã thay thế ${replacedCount} ảnh thành công! Bây giờ bạn có thể Export JSON + Ảnh.`;
+            } else {
+                resultText.textContent = `Không tìm thấy ảnh phù hợp để thay thế. Hãy đảm bảo tên file ảnh khớp với tên trong URL.`;
+                resultDiv.querySelector('.alert').classList.remove('alert-success');
+                resultDiv.querySelector('.alert').classList.add('alert-warning');
+            }
+            
+            input.value = '';
+        }
+        
+        // Kiểm tra ảnh còn hoạt động
+        async function checkImageUrls() {
+            const urls = getAllImageUrls();
+            if (urls.length === 0) {
+                alert('Không có URL ảnh nào!');
+                return;
+            }
+            
+            const container = document.getElementById('imageUrlsContainer');
+            const textarea = document.getElementById('imageUrlsList');
+            container.style.display = 'block';
+            
+            // Phân loại URL
+            const cdnUrls = urls.filter(u => u.includes('cdn.tgdd.vn') || u.includes('upload.wikimedia'));
+            const otherUrls = urls.filter(u => !u.includes('cdn.tgdd.vn') && !u.includes('upload.wikimedia'));
+            
+            let result = `📊 Thống kê URL ảnh:\n`;
+            result += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            result += `📦 Tổng số: ${urls.length} ảnh\n`;
+            result += `🌐 Ảnh từ CDN bên ngoài: ${cdnUrls.length}\n`;
+            result += `📁 Ảnh khác: ${otherUrls.length}\n\n`;
+            
+            result += `⚠️ LƯU Ý:\n`;
+            result += `- Ảnh từ cdn.tgdd.vn và wikimedia là URL bên ngoài\n`;
+            result += `- Do chính sách CORS, không thể kiểm tra tự động\n`;
+            result += `- Ảnh sẽ hiển thị bình thường khi mở trang web\n`;
+            result += `- Nếu muốn dùng offline, cần tải ảnh thủ công\n\n`;
+            
+            result += `📋 DANH SÁCH URL:\n`;
+            result += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            urls.forEach((url, i) => {
+                result += `${i+1}. ${url}\n`;
+            });
+            
+            textarea.value = result;
+            document.getElementById('imageCount').textContent = `${urls.length} URL ảnh`;
+        }
+        
+        // Init
+        loadStats();
+    </script>
+</body>
+</html>

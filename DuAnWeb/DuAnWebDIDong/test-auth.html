@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Auth API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0052a3;
+        }
+        .result {
+            background: white;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Auth API</h1>
+    
+    <div class="test-section">
+        <h2>1. Test API Base URL</h2>
+        <button onclick="testBaseUrl()">Test Base URL</button>
+        <div id="baseUrlResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Đăng Ký</h2>
+        <input type="text" id="regName" placeholder="Họ tên" value="Test User">
+        <input type="email" id="regEmail" placeholder="Email" value="test@test.com">
+        <input type="tel" id="regPhone" placeholder="Số điện thoại" value="0901234567">
+        <input type="password" id="regPassword" placeholder="Mật khẩu" value="123456">
+        <button onclick="testRegister()">Test Đăng Ký</button>
+        <div id="registerResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Đăng Nhập</h2>
+        <input type="text" id="loginUsername" placeholder="Email hoặc SĐT" value="admin@test.com">
+        <input type="password" id="loginPassword" placeholder="Mật khẩu" value="admin123">
+        <button onclick="testLogin()">Test Đăng Nhập</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <script>
+        // Auto-detect API base URL
+        const API_BASE_URL = (() => {
+            const currentPath = window.location.pathname;
+            const baseUrl = window.location.origin;
+            
+            if (window.location.port === '8080') {
+                return `${baseUrl}/api`;
+            }
+            
+            if (currentPath.includes('/DuAnWeb/DuAnWebDIDong/')) {
+                return `${baseUrl}/DuAnWeb/DuAnWebDIDong/api`;
+            }
+            
+            if (currentPath.includes('/DuAnWebDIDong/')) {
+                return `${baseUrl}/DuAnWebDIDong/api`;
+            }
+            
+            return `${baseUrl}/api`;
+        })();
+
+        function log(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            element.className = 'result ' + (isError ? 'error' : 'success');
+            element.textContent = message;
+        }
+
+        async function testBaseUrl() {
+            log('baseUrlResult', `Đang test API Base URL: ${API_BASE_URL}`);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth.php`);
+                const result = await response.json();
+                
+                log('baseUrlResult', 
+                    `✅ API Base URL: ${API_BASE_URL}\n` +
+                    `✅ Response: ${JSON.stringify(result, null, 2)}\n` +
+                    `✅ Status: ${response.status}\n\n` +
+                    `Kết quả mong đợi: {"success":false,"message":"Action không hợp lệ"}`
+                );
+            } catch (error) {
+                log('baseUrlResult', 
+                    `❌ Lỗi kết nối!\n` +
+                    `API URL: ${API_BASE_URL}/auth.php\n` +
+                    `Error: ${error.message}\n\n` +
+                    `Kiểm tra:\n` +
+                    `1. Docker có đang chạy không?\n` +
+                    `2. Port 8080 có đúng không?\n` +
+                    `3. File auth.php có tồn tại không?`,
+                    true
+                );
+            }
+        }
+
+        async function testRegister() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+
+            log('registerResult', 'Đang gọi API đăng ký...');
+
+            try {
+                const url = `${API_BASE_URL}/auth.php?action=register`;
+                const data = { name, email, phone, password };
+
+                console.log('🚀 Register URL:', url);
+                console.log('🚀 Register Data:', data);
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                console.log('✅ Register Result:', result);
+
+                log('registerResult', 
+                    `URL: ${url}\n` +
+                    `Request: ${JSON.stringify(data, null, 2)}\n\n` +
+                    `Response: ${JSON.stringify(result, null, 2)}`,
+                    !result.success
+                );
+            } catch (error) {
+                console.error('❌ Register Error:', error);
+                log('registerResult', 
+                    `❌ Lỗi: ${error.message}\n` +
+                    `URL: ${API_BASE_URL}/auth.php?action=register`,
+                    true
+                );
+            }
+        }
+
+        async function testLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            log('loginResult', 'Đang gọi API đăng nhập...');
+
+            try {
+                const url = `${API_BASE_URL}/auth.php?action=login`;
+                const data = { username, password };
+
+                console.log('🚀 Login URL:', url);
+                console.log('🚀 Login Data:', data);
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                console.log('✅ Login Result:', result);
+
+                log('loginResult', 
+                    `URL: ${url}\n` +
+                    `Request: ${JSON.stringify(data, null, 2)}\n\n` +
+                    `Response: ${JSON.stringify(result, null, 2)}`,
+                    !result.success
+                );
+            } catch (error) {
+                console.error('❌ Login Error:', error);
+                log('loginResult', 
+                    `❌ Lỗi: ${error.message}\n` +
+                    `URL: ${API_BASE_URL}/auth.php?action=login`,
+                    true
+                );
+            }
+        }
+
+        // Auto test on load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🔗 API Base URL:', API_BASE_URL);
+            testBaseUrl();
+        });
+    </script>
+</body>
+</html>

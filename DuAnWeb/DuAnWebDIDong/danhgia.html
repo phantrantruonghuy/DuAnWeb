@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá khách hàng - Thế Giới Di Động</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/banners/08Oct Anis  Free Upload .png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+<header class="header-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+      <!-- Logo -->
+      <div id="logoContainer"></div>
+
+      <!-- Thanh tìm kiếm -->
+      <form class="search-form flex-grow-1 mx-3" style="max-width:600px;">
+        <div class="input-group rounded-pill overflow-hidden shadow-sm">
+          <input type="text" class="form-control border-0" placeholder="Bạn cần tìm gì?" id="searchInput">
+          <button class="btn btn-light px-4" type="submit">
+            <i class="fas fa-search text-dark"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Hành động -->
+      <div class="header-actions d-flex align-items-center gap-4 flex-shrink-0">
+        <a href="lienhe.html" class="text-dark text-decoration-none d-flex align-items-center gap-1">
+          <i class="fas fa-headset"></i> <span>Hỗ trợ</span>
+        </a>
+        <a href="login.html" class="text-dark text-decoration-none d-flex align-items-center gap-1" id="userAccountLink">
+          <i class="fas fa-user"></i> <span>Đăng nhập</span>
+        </a>
+        <a href="giohang.html" class="text-dark text-decoration-none position-relative d-flex align-items-center gap-1">
+          <i class="fas fa-shopping-cart"></i> <span>Giỏ hàng</span>
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+  <div class="container-fluid px-4">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav flex-wrap justify-content-center text-center">
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="index.html">
+            <i class="fas fa-home"></i> Trang chủ
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="sanpham.html">
+            <i class="fas fa-mobile-alt"></i> Sản phẩm
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark active" href="danhgia.html">
+            <i class="fas fa-star"></i> Đánh giá
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="lienhe.html">
+            <i class="fas fa-envelope"></i> Liên hệ
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CSS -->
+<style>
+/* ========== MÀU CHỦ ĐẠO ========== */
+.header-top {
+  background-color: #001f3f; /* navy blue */
+}
+
+.bg-tgdd {
+  background-color: #002b5c; /* navy blue */
+}
+
+.navbar .nav-link {
+  color: #000 !important;
+  transition: 0.3s;
+}
+
+.navbar .nav-link:hover {
+  text-decoration: underline;
+  color: #666 !important;
+}
+
+.navbar .nav-link.active {
+  color: #000 !important;
+  font-weight: bold;
+  border-bottom: 3px solid #000;
+  text-decoration: none !important;
+}
+
+/* ========== SEARCH BAR ========== */
+.search-form input {
+  height: 42px;
+}
+
+.search-form input::placeholder {
+  color: #666;
+}
+
+.search-form input:focus {
+  box-shadow: none;
+}
+
+.search-form .btn {
+  background-color: #fff;
+}
+
+/* ========== BUTTON STYLE ========== */
+.header-actions a {
+  font-weight: 500;
+  color: #fff !important;
+}
+
+.header-actions a:hover {
+  color: #e0e0e0 !important;
+}
+
+.header-actions i {
+  color: #fff;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+  .search-form {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+</style>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section py-3 bg-light">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Đánh giá khách hàng</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Review Form -->
+                <div class="col-lg-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-edit"></i> Gửi đánh giá của bạn</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                <i class="fas fa-info-circle"></i> <strong>Lưu ý:</strong> Chỉ khách hàng đã mua và nhận sản phẩm mới được đánh giá.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            <form id="reviewForm" onsubmit="submitReview(event)">
+                                <div class="mb-3">
+                                    <label for="reviewName" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="reviewName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reviewEmail" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="reviewEmail" required>
+                                    <small class="text-muted">Chỉ email đã mua hàng mới được đánh giá</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reviewProduct" class="form-label">Sản phẩm đã mua <span class="text-danger">*</span></label>
+                                    <select class="form-control" id="reviewProduct" required>
+                                        <option value="">-- Chọn sản phẩm đã mua --</option>
+                                    </select>
+                                    <small class="text-muted">Nhập email để xem sản phẩm đã mua</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Đánh giá <span class="text-danger">*</span></label>
+                                    <div class="rating-input">
+                                        <i class="far fa-star rating-star" data-rating="1"></i>
+                                        <i class="far fa-star rating-star" data-rating="2"></i>
+                                        <i class="far fa-star rating-star" data-rating="3"></i>
+                                        <i class="far fa-star rating-star" data-rating="4"></i>
+                                        <i class="far fa-star rating-star" data-rating="5"></i>
+                                    </div>
+                                    <input type="hidden" id="ratingValue" value="0" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reviewContent" class="form-label">Nội dung <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="reviewContent" rows="5" required placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-paper-plane"></i> Gửi đánh giá
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-body text-center">
+                            <h3 class="text-warning mb-2">4.8 <i class="fas fa-star"></i></h3>
+                            <p class="text-muted mb-3">Dựa trên 2,456 đánh giá</p>
+                            <div class="rating-bars">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="me-2">5 <i class="fas fa-star text-warning small"></i></span>
+                                    <div class="progress flex-grow-1" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 85%"></div>
+                                    </div>
+                                    <span class="ms-2 small">85%</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="me-2">4 <i class="fas fa-star text-warning small"></i></span>
+                                    <div class="progress flex-grow-1" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 10%"></div>
+                                    </div>
+                                    <span class="ms-2 small">10%</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="me-2">3 <i class="fas fa-star text-warning small"></i></span>
+                                    <div class="progress flex-grow-1" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 3%"></div>
+                                    </div>
+                                    <span class="ms-2 small">3%</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="me-2">2 <i class="fas fa-star text-warning small"></i></span>
+                                    <div class="progress flex-grow-1" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 1%"></div>
+                                    </div>
+                                    <span class="ms-2 small">1%</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">1 <i class="fas fa-star text-warning small"></i></span>
+                                    <div class="progress flex-grow-1" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 1%"></div>
+                                    </div>
+                                    <span class="ms-2 small">1%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews List -->
+                <div class="col-lg-8">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4><i class="fas fa-comments"></i> Đánh giá từ khách hàng</h4>
+                        <select class="form-select w-auto" id="filterReviews">
+                            <option value="all">Tất cả</option>
+                            <option value="5">5 sao</option>
+                            <option value="4">4 sao</option>
+                            <option value="3">3 sao</option>
+                            <option value="2">2 sao</option>
+                            <option value="1">1 sao</option>
+                        </select>
+                    </div>
+
+                    <div id="reviewsList">
+                        <!-- Review Item 1 -->
+                        <div class="review-card card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-user fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">Nguyễn Văn An</h5>
+                                        <div class="text-warning mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-clock"></i> 2 ngày trước | 
+                                            <i class="fas fa-mobile-alt"></i> iPhone 15 Pro Max
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="mb-2">Sản phẩm rất tốt, chất lượng hoàn hảo! Giao hàng nhanh chóng, đóng gói cẩn thận. Máy nguyên seal, kích hoạt bảo hành Apple đầy đủ. Camera cực đỉnh, màn hình đẹp, pin trâu. Rất hài lòng với lần mua này!</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-thumbs-up"></i> Hữu ích (24)
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-reply"></i> Phản hồi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Item 2 -->
+                        <div class="review-card card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-user fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">Trần Thị Bình</h5>
+                                        <div class="text-warning mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-clock"></i> 5 ngày trước | 
+                                            <i class="fas fa-mobile-alt"></i> Samsung Galaxy S24 Ultra
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="mb-2">Mình rất hài lòng với chiếc Samsung S24 Ultra này. Màn hình sáng đẹp, bút S Pen viết mượt, camera zoom 100x rất ấn tượng. Nhân viên tư vấn nhiệt tình, giao hàng đúng hẹn. Sẽ giới thiệu bạn bè mua tại đây!</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-thumbs-up"></i> Hữu ích (18)
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-reply"></i> Phản hồi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Item 3 -->
+                        <div class="review-card card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-user fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">Lê Minh Công</h5>
+                                        <div class="text-warning mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-clock"></i> 1 tuần trước | 
+                                            <i class="fas fa-mobile-alt"></i> Xiaomi 14 Ultra
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="mb-2">Máy đẹp, camera Leica chất lượng tuyệt vời. Hiệu năng mạnh mẽ cho gaming. Tuy nhiên giá hơi cao so với mặt bằng chung. Nếu giảm giá thêm thì hoàn hảo rồi. Nhìn chung vẫn đáng mua!</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-thumbs-up"></i> Hữu ích (12)
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-reply"></i> Phản hồi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Item 4 -->
+                        <div class="review-card card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-user fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">Phạm Thị Dung</h5>
+                                        <div class="text-warning mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-clock"></i> 2 tuần trước | 
+                                            <i class="fas fa-mobile-alt"></i> OPPO Reno11
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="mb-2">Lần đầu mua điện thoại online nhưng không thất vọng. Ship nhanh, máy đẹp, chạy mượt. Camera selfie đẹp lắm các bạn ơi! Giá cả hợp lý, dịch vụ tốt. 10 điểm cho shop!</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-thumbs-up"></i> Hữu ích (8)
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-reply"></i> Phản hồi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Item 5 -->
+                        <div class="review-card card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-user fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">Hoàng Văn Em</h5>
+                                        <div class="text-warning mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-clock"></i> 3 tuần trước | 
+                                            <i class="fas fa-mobile-alt"></i> Realme 12 Pro+
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="mb-2">Giá rẻ mà máy xịn! Realme này chơi game cực mượt, pin trâu cả ngày. Camera zoom tele 3x rất xài được. Đóng gói cẩn thận, có cả quà tặng. Recommend cho bạn nào budget 10 triệu!</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-thumbs-up"></i> Hữu ích (15)
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-reply"></i> Phản hồi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Load More -->
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-sync-alt"></i> Xem thêm đánh giá
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5" style="background-color: #ffffcc; color: #000;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h5 class="text-dark mb-3" data-setting="websiteName">Thế Giới Di Động</h5>
+                    <p>Hệ thống bán lẻ điện thoại di động hàng đầu Việt Nam</p>
+                    <div class="social-links mt-3" id="socialLinks">
+                        <a href="#" class="text-dark me-3" data-social="facebook" style="display: none;"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="youtube" style="display: none;"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="instagram" style="display: none;"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-dark" data-social="zalo" style="display: none;"><i class="fas fa-comment-dots fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Thông tin</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="gioi-thieu.html" class="text-dark text-decoration-none">Giới thiệu công ty</a></li>
+                        <li><a href="chinh-sach-bao-mat.html" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="quy-che-hoat-dong.html" class="text-dark text-decoration-none">Quy chế hoạt động</a></li>
+                        <li><a href="kiem-tra-hoa-don.html" class="text-dark text-decoration-none">Kiểm tra hóa đơn</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Hỗ trợ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="huong-dan-mua-hang.html" class="text-dark text-decoration-none">Hướng dẫn mua hàng</a></li>
+                        <li><a href="huong-dan-thanh-toan.html" class="text-dark text-decoration-none">Hướng dẫn thanh toán</a></li>
+                        <li><a href="chinh-sach-doi-tra.html" class="text-dark text-decoration-none">Chính sách đổi trả</a></li>
+                        <li><a href="bao-hanh-sua-chua.html" class="text-dark text-decoration-none">Bảo hành & sửa chữa</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Liên hệ</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone"></i> Hotline: <span data-setting="hotline">1800.6789</span></li>
+                        <li><i class="fas fa-envelope"></i> Email: <span data-setting="email">info@thegioididong.com</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-setting="address">123 Đường ABC, Quận 1, TP.HCM</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-dark">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 <span data-setting="websiteName">Thế Giới Di Động</span>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary btn-floating">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/settings-loader.js"></script>
+    <script src="js/main-api.js?v=3.0"></script>
+    <script src="js/auth-api.js"></script>
+    <script src="js/reviews.js"></script>
+    <script>
+        // Initialize logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoContainer = document.getElementById('logoContainer');
+            if (logoContainer) {
+                logoContainer.innerHTML = createLogo();
+            }
+        });
+    </script>
+</body>
+</html>

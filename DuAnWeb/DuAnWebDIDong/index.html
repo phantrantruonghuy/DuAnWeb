@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thế Giới Di Động - Điện thoại, Laptop, Tablet, Phụ kiện chính hãng</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/banners/08Oct Anis  Free Upload .png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+<header class="header-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+      <!-- Logo -->
+      <div id="logoContainer"></div>
+
+      <!-- Thanh tìm kiếm -->
+      <form class="search-form flex-grow-1 mx-3" style="max-width:600px;">
+        <div class="input-group rounded-pill overflow-hidden shadow-sm">
+          <input type="text" class="form-control border-0" placeholder="Bạn cần tìm gì?" id="searchInput">
+          <button class="btn btn-light px-4" type="submit">
+            <i class="fas fa-search text-dark"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Hành động -->
+      <div class="header-actions d-flex align-items-center gap-4 flex-shrink-0">
+        <a href="lienhe.html" class="text-dark text-decoration-none d-flex align-items-center gap-1">
+          <i class="fas fa-headset"></i> <span>Hỗ trợ</span>
+        </a>
+        <a href="login.html" class="text-dark text-decoration-none d-flex align-items-center gap-1" id="userAccountLink">
+          <i class="fas fa-user"></i> <span>Đăng nhập</span>
+        </a>
+        <a href="giohang.html" class="text-dark text-decoration-none position-relative d-flex align-items-center gap-1">
+          <i class="fas fa-shopping-cart"></i> <span>Giỏ hàng</span>
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+  <div class="container-fluid px-4">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav flex-wrap justify-content-center text-center">
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark active" href="index.html">
+            <i class="fas fa-home"></i> Trang chủ
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="sanpham.html">
+            <i class="fas fa-mobile-alt"></i> Sản phẩm
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="danhgia.html">
+            <i class="fas fa-star"></i> Đánh giá
+          </a>
+        </li>
+        <li class="nav-item px-3">
+          <a class="nav-link fw-semibold text-dark" href="lienhe.html">
+            <i class="fas fa-envelope"></i> Liên hệ
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Flash Sale Banner -->
+<div id="flashSaleBanner" class="flash-sale-banner py-3">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <div class="flash-icon bg-danger text-white rounded d-flex align-items-center justify-content-center" style="width:80px;height:80px;font-size:28px;">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <div>
+        <h4 class="mb-1 text-white" id="flashSaleTitle">Flash Sale: Giảm đến 50% — Số lượng có hạn!</h4>
+        <div class="text-white small">Kết thúc trong: <span id="flashSaleCountdown">00:00:00</span></div>
+      </div>
+    </div>
+    <div>
+      <a href="sanpham.html?promo=flash" class="btn btn-lg btn-warning" id="flashSaleCta">Mua ngay</a>
+    </div>
+  </div>
+</div>
+
+<!-- CSS -->
+<style>
+/* ========== MÀU CHỦ ĐẠO ========== */
+.header-top {
+  background-color: #001f3f; /* navy blue */
+}
+
+.bg-tgdd {
+  background-color: #002b5c !important; /* navy blue */
+}
+
+.navbar .nav-link {
+  color: #000 !important;
+  transition: 0.3s;
+}
+
+.navbar .nav-link:hover {
+  text-decoration: underline;
+  color: #666 !important;
+}
+
+.navbar .nav-link.active {
+  color: #000 !important;
+  font-weight: bold;
+  border-bottom: 3px solid #000;
+  text-decoration: none !important;
+}
+
+/* ========== SEARCH BAR ========== */
+.search-form input {
+  height: 42px;
+}
+
+.search-form input::placeholder {
+  color: #666;
+}
+
+.search-form input:focus {
+  box-shadow: none;
+}
+
+.search-form .btn {
+  background-color: #fff;
+}
+
+/* ========== BUTTON STYLE ========== */
+.header-actions a {
+  font-weight: 500;
+  color: #fff !important;
+}
+
+.header-actions a:hover {
+  color: #e0e0e0 !important;
+}
+
+.header-actions i {
+  color: #fff;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+  .search-form {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+</style>
+
+ <!-- Banner Slider -->
+<section class="banner-section py-0">
+  <div class="container-fluid px-0">
+    <div class="swiper bannerSwiper">
+      <div class="swiper-wrapper">
+
+        <!-- Banner 1 -->
+        <div class="swiper-slide">
+          <div class="banner-item position-relative">
+            <img src="images/banners/bn1.png"
+                 alt="iPhone 15 Pro Max"
+                 class="w-100 img-fluid banner-img">
+            <div class="banner-overlay position-absolute top-50 start-0 translate-middle-y text-start text-white px-5">
+            
+              <span class="text-warning fw-bold">Ưu đãi đặc biệt</span><br>
+              <a href="sanpham.html?brand=Apple" class="btn btn-light btn-sm mt-2 px-3">
+                <i class="fas fa-shopping-bag"></i> Xem ngay
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner 2 -->
+        <div class="swiper-slide">
+          <div class="banner-item position-relative">
+            <img src="images/banners/bb2.webp"
+                 alt="Samsung Galaxy S24 Ultra"
+                 class="w-100 img-fluid banner-img">
+            <div class="banner-overlay position-absolute top-50 start-0 translate-middle-y text-start text-white px-5">
+             
+              <span class="text-warning fw-bold">Trả góp 0%</span><br>
+              <a href="sanpham.html?brand=Samsung" class="btn btn-light btn-sm mt-2 px-3">
+                <i class="fas fa-bolt"></i> Khám phá
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner 3 -->
+        <div class="swiper-slide">
+          <div class="banner-item position-relative">
+            <img src="images/banners/bb3.webp"
+                 alt="Xiaomi 14 Ultra"
+                 class="w-100 img-fluid banner-img">
+            <div class="banner-overlay position-absolute top-50 start-0 translate-middle-y text-start text-white px-5">
+             
+              <span class="text-warning fw-bold">Quà tặng 3 triệu</span><br>
+              <a href="sanpham.html?brand=Xiaomi" class="btn btn-light btn-sm mt-2 px-3">
+                <i class="fas fa-gift"></i> Mua ngay
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Swiper Navigation -->
+      <div class="swiper-button-next text-white"></div>
+      <div class="swiper-button-prev text-white"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CSS -->
+<style>
+  .banner-img {
+    height: 280px;            /* 👈 cỡ này như hình bạn gửi */
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0;         /* full chiều ngang, không bo */
+  }
+
+  .banner-overlay {
+    max-width: 40%;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .banner-img {
+      height: 200px;
+    }
+    .banner-overlay {
+      max-width: 80%;
+      font-size: 0.9rem;
+      padding: 1rem !important;
+    }
+  }
+</style>
+
+<!-- JS khởi tạo Swiper -->
+<script>
+  const swiper = new Swiper(".bannerSwiper", {
+    loop: true,
+    autoplay: { delay: 4000 },
+    pagination: { el: ".swiper-pagination", clickable: true },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>
+
+
+   <!-- Promo / Quick Actions Section -->
+<section class="promo-section py-4">
+  <div class="container">
+    <div class="row g-3 align-items-stretch">
+      <div class="col-lg-7 col-12">
+        <div class="card bg-dark text-white h-100 border-0 shadow-sm overflow-hidden position-relative">
+          <img src="images/banners/bb5.webp" 
+               class="card-img" 
+               alt="Ưu đãi lớn" 
+               style="object-fit: cover; height: 100%; width: 100%;">
+          
+          <!-- Lớp phủ nền mờ để dễ đọc -->
+          <div class="position-absolute top-0 start-0 w-100 h-100" 
+               style="background: rgba(0,0,0,0.4); z-index:1;">
+          </div>
+
+          <!-- Nội dung chữ -->
+          <div class="card-img-overlay d-flex flex-column justify-content-center px-5" style="z-index:2;">
+            <h2 class="card-title fw-bold">Ưu đãi đặc biệt trong tuần</h2>
+            <p class="card-text lead">Các mẫu điện thoại mới nhất, trả góp 0% và quà tặng hấp dẫn.</p>
+            <div>
+              <a href="sanpham.html" class="btn btn-warning btn-lg me-2">Xem ngay</a>
+              <a href="sanpham.html?promo=flash" class="btn btn-outline-light btn-lg">Khuyến mãi nhanh</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải -->
+      <div class="col-lg-5 col-12">
+        <div class="row g-3 h-100">
+          <div class="col-12">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body d-flex gap-3 align-items-center">
+                <i class="fas fa-bolt fa-2x text-warning"></i>
+                <div>
+                  <h5 class="mb-1">Trả góp 0%</h5>
+                  <p class="mb-0 text-muted small">Duyệt hồ sơ nhanh, lãi suất 0% với nhiều đối tác</p>
+                </div>
+                <div class="ms-auto">
+                  <a href="sanpham.html?filter=installment" class="stretched-link text-decoration-none">&nbsp;</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body d-flex gap-3 align-items-center">
+                <i class="fas fa-gift fa-2x text-primary"></i>
+                <div>
+                  <h5 class="mb-1">Quà tặng & Voucher</h5>
+                  <p class="mb-0 text-muted small">Ưu đãi khi mua online, nhận quà ngay tại cửa hàng</p>
+                </div>
+                <div class="ms-auto">
+                  <a href="sanpham.html?filter=gift" class="stretched-link text-decoration-none">&nbsp;</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 d-none d-lg-block">
+            <div class="card h-100 border-0 bg-light p-3 shadow-sm">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Mua online - nhận tại cửa hàng</h6>
+                  <p class="mb-0 text-muted small">Chọn cửa hàng gần bạn và lấy hàng trong ngày</p>
+                </div>
+                <a href="lienhe.html" class="btn btn-sm btn-outline-secondary">Tìm cửa hàng</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <!-- Small feature icons row -->
+      <div class="row text-center mt-4 g-3">
+        <div class="col-6 col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+            <div class="fw-semibold">Chính hãng 100%</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <i class="fas fa-headset fa-2x text-info mb-2"></i>
+            <div class="fw-semibold">Hỗ trợ 24/7</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <i class="fas fa-rotate fa-2x text-warning mb-2"></i>
+            <div class="fw-semibold">Đổi trả 30 ngày</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 bg-white rounded shadow-sm h-100">
+            <i class="fas fa-truck fa-2x text-primary mb-2"></i>
+            <div class="fw-semibold">Giao nhanh trong ngày</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <section class="brands-section py-4 bg-light">
+        <div class="container">
+            
+            <div class="row g-3">
+                 <!-- Thương hiệu nổi bật -->
+<section class="brands-section py-5 bg-light">
+  <div class="container">
+    <h3 class="text-center mb-4 fw-bold text-uppercase">
+      Thương hiệu nổi bật
+    </h3>
+    <div class="brands-marquee">
+      <div class="brands-track" id="brandsTrack">
+        <div class="brand-item">
+          <a href="sanpham.html?brand=apple" class="brand-card text-decoration-none">
+            <div class="card border-0 shadow-sm hover-card">
+              <img src="images/products/logo_iphone_ngang_eac93ff477.webp" class="card-img-top p-3" alt="Apple">
+              <div class="card-body py-2 text-center">
+                <p class="fw-bold text-dark mb-0">Apple</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="brand-item">
+          <a href="sanpham.html?brand=samsung" class="brand-card text-decoration-none">
+            <div class="card border-0 shadow-sm hover-card">
+              <img src="images/products/logo_samsung_ngang_1624d75bd8.webp" class="card-img-top p-3" alt="Samsung">
+              <div class="card-body py-2 text-center">
+                <p class="fw-bold text-dark mb-0">Samsung</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="brand-item">
+          <a href="sanpham.html?brand=xiaomi" class="brand-card text-decoration-none">
+            <div class="card border-0 shadow-sm hover-card">
+              <img src="images/products/logo_tcl_ngang_0ed4175607.webp" class="card-img-top p-3" alt="Xiaomi">
+              <div class="card-body py-2 text-center">
+                <p class="fw-bold text-dark mb-0">Xiaomi</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="brand-item">
+          <a href="sanpham.html?brand=oppo" class="brand-card text-decoration-none">
+            <div class="card border-0 shadow-sm hover-card">
+              <img src="images/products/logo_oppo_ngang_68d31fcd73.webp" class="card-img-top p-3" alt="OPPO">
+              <div class="card-body py-2 text-center">
+                <p class="fw-bold text-dark mb-0">OPPO</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="brand-item">
+          <a href="sanpham.html?brand=vivo" class="brand-card text-decoration-none">
+            <div class="card border-0 shadow-sm hover-card">
+              <img src="images/products/logo_vivo_ngang_45494ff733.webp" class="card-img-top p-3" alt="Vivo">
+              <div class="card-body py-2 text-center">
+                <p class="fw-bold text-dark mb-0">Vivo</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="brand-item">
+          <a href="sanpham.html?brand=realme" class="brand-card text-decoration-none">
+            <div class="card border-0 shadow-sm hover-card sparkle">
+              <img src="images/products/logo_realme_ngang_0185815a13.webp" class="card-img-top p-3" alt="Realme">
+              <div class="card-body py-2 text-center">
+                <p class="fw-bold text-dark mb-0">Realme</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+            </div>
+        </div>
+   
+    <!-- Hot Products Section -->
+    <section class="products-section py-5">
+        <div class="container">
+            <h3 class="mb-4">
+                <i class="fas fa-fire text-danger"></i> Sản phẩm HOT
+            </h3>
+            <div class="row g-4" id="hotProducts">
+                <!-- Products will be loaded by JavaScript -->
+            </div>
+            <div class="text-center mt-4">
+                <a href="sanpham.html" class="btn btn-primary btn-lg">
+                    Xem tất cả sản phẩm <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discount Products Section -->
+    <section class="products-section py-5">
+        <div class="container">
+            <h3 class="mb-4">
+                <i class="fas fa-percent text-success"></i> Sản phẩm khuyến mãi
+            </h3>
+            <div class="d-flex justify-content-center mb-4">
+                <div class="countdown-container bg-success text-white p-3 rounded">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-clock"></i>
+                        <span class="fw-bold">Thời gian còn lại:</span>
+                        <div id="discountCountdown" class="d-flex gap-2">
+                            <!-- Countdown will be loaded by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4" id="discountProducts">
+                <!-- Products will be loaded by JavaScript -->
+            </div>
+            <div class="text-center mt-4">
+                <a href="sanpham.html" class="btn btn-success btn-lg">
+                    Xem tất cả khuyến mãi <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Selling Products Section -->
+    <section class="products-section py-5">
+        <div class="container">
+            <h3 class="mb-4">
+                <i class="fas fa-chart-line text-primary"></i> Sản phẩm bán chạy
+            </h3>
+            <div class="row g-4" id="bestSellingProducts">
+                <!-- Products will be loaded by JavaScript -->
+            </div>
+            <div class="text-center mt-4">
+                <a href="sanpham.html" class="btn btn-primary btn-lg">
+                    Xem tất cả sản phẩm <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section py-5 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                        <h5>Giao hàng nhanh</h5>
+                        <p class="text-muted">Trong 2 giờ hoặc nhận tại cửa hàng</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                        <h5>Bảo hành chính hãng</h5>
+                        <p class="text-muted">Bảo hành tại hơn 2000 điểm toàn quốc</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-exchange-alt fa-3x text-warning mb-3"></i>
+                        <h5>Đổi trả dễ dàng</h5>
+                        <p class="text-muted">1 đổi 1 trong 30 ngày nếu lỗi</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-headset fa-3x text-info mb-3"></i>
+                        <h5>Hỗ trợ 24/7</h5>
+                        <p class="text-muted">Hotline: 1800.6789</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="mb-4">Về Thế Giới Di Động</h2>
+                    <p class="lead">Hệ thống bán lẻ điện thoại di động, smartphone, máy tính bảng, tablet, laptop, phụ kiện, smartwatch, đồng hồ và thiết bị số hàng đầu Việt Nam.</p>
+                    <p>Với hơn 3000+ cửa hàng trên toàn quốc, chúng tôi cam kết mang đến cho khách hàng:</p>
+                    <ul>
+                        <li><i class="fas fa-check text-success"></i> Sản phẩm chính hãng 100%</li>
+                        <li><i class="fas fa-check text-success"></i> Giá tốt nhất thị trường</li>
+                        <li><i class="fas fa-check text-success"></i> Dịch vụ chuyên nghiệp</li>
+                        <li><i class="fas fa-check text-success"></i> Bảo hành uy tín</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <i class="fas fa-store fa-10x text-primary" style="opacity: 0.1;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5" style="background-color: #ffffcc; color: #000;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h5 class="text-dark mb-3" data-setting="websiteName">Thế Giới Di Động</h5>
+                    <p>Hệ thống bán lẻ điện thoại di động hàng đầu Việt Nam</p>
+                    <div class="social-links mt-3" id="socialLinks">
+                        <a href="#" class="text-dark me-3" data-social="facebook" style="display: none;"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="youtube" style="display: none;"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-dark me-3" data-social="instagram" style="display: none;"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-dark" data-social="zalo" style="display: none;"><i class="fas fa-comment-dots fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Thông tin</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="gioi-thieu.html" class="text-dark text-decoration-none">Giới thiệu công ty</a></li>
+                        <li><a href="chinh-sach-bao-mat.html" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="quy-che-hoat-dong.html" class="text-dark text-decoration-none">Quy chế hoạt động</a></li>
+                        <li><a href="kiem-tra-hoa-don.html" class="text-dark text-decoration-none">Kiểm tra hóa đơn</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Hỗ trợ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="huong-dan-mua-hang.html" class="text-dark text-decoration-none">Hướng dẫn mua hàng</a></li>
+                        <li><a href="huong-dan-thanh-toan.html" class="text-dark text-decoration-none">Hướng dẫn thanh toán</a></li>
+                        <li><a href="chinh-sach-doi-tra.html" class="text-dark text-decoration-none">Chính sách đổi trả</a></li>
+                        <li><a href="bao-hanh-sua-chua.html" class="text-dark text-decoration-none">Bảo hành & sửa chữa</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-warning mb-3">Liên hệ</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone"></i> Hotline: <span data-setting="hotline">1800.6789</span></li>
+                        <li><i class="fas fa-envelope"></i> Email: <span data-setting="email">info@thegioididong.com</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-setting="address">123 Đường ABC, Quận 1, TP.HCM</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-dark">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 <span data-setting="websiteName">Thế Giới Di Động</span>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary btn-floating">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/settings-loader.js"></script>
+    <script src="js/main-api.js?v=15.0"></script>
+    <script>
+      // Brands marquee initializer: clone items for seamless loop and enable pause on hover
+      document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('brandsTrack');
+        if (!track) return;
+
+        // Duplicate children to allow seamless infinite scroll
+        const children = Array.from(track.children);
+        children.forEach(node => {
+          const clone = node.cloneNode(true);
+          track.appendChild(clone);
+        });
+
+        // Pause on hover
+        track.parentElement.addEventListener('mouseenter', () => track.classList.add('paused'));
+        track.parentElement.addEventListener('mouseleave', () => track.classList.remove('paused'));
+      });
+    </script>
+    <script>
+        // Initialize logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoContainer = document.getElementById('logoContainer');
+            if (logoContainer) {
+                logoContainer.innerHTML = createLogo();
+            }
+        });
+    </script>
+    <script>
+      // === Flash sale swiper init ===
+      document.addEventListener('DOMContentLoaded', function () {
+        if (typeof Swiper !== 'undefined' && document.querySelector('.flashSwiper')) {
+          new Swiper('.flashSwiper', {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            loop: true,
+            navigation: {
+              nextEl: '.flashSwiper .swiper-button-next',
+              prevEl: '.flashSwiper .swiper-button-prev',
+            },
+            pagination: {
+              el: '.flashSwiper .swiper-pagination',
+              clickable: true,
+            },
+            breakpoints: {
+              0: { slidesPerView: 1 },
+              576: { slidesPerView: 2 },
+              992: { slidesPerView: 3 }
+            }
+          });
+        }
+
+        // === Flash sale countdown ===
+        const countdownEl = document.getElementById('flashCountdown');
+        if (countdownEl) {
+          // target: 2025-11-07 00:00 local time (adjust as needed)
+          const target = new Date('2025-11-07T00:00:00');
+
+          function updateCountdown() {
+            const now = new Date();
+            let diff = Math.max(0, Math.floor((target - now) / 1000));
+
+            const days = Math.floor(diff / 86400); diff %= 86400;
+            const hours = Math.floor(diff / 3600); diff %= 3600;
+            const minutes = Math.floor(diff / 60); const seconds = diff % 60;
+
+            countdownEl.innerHTML = `
+              <div class="badge bg-danger text-white py-2 px-3">${String(days).padStart(2,'0')}</div>
+              <div class="badge bg-danger text-white py-2 px-3">${String(hours).padStart(2,'0')}</div>
+              <div class="badge bg-danger text-white py-2 px-3">${String(minutes).padStart(2,'0')}</div>
+              <div class="badge bg-danger text-white py-2 px-3">${String(seconds).padStart(2,'0')}</div>
+            `;
+          }
+
+          updateCountdown();
+          setInterval(updateCountdown, 1000);
+        }
+
+        // === Hot products countdown ===
+        const hotCountdownEl = document.getElementById('hotCountdown');
+        if (hotCountdownEl) {
+          // target: 2025-12-31 23:59 local time
+          const target = new Date('2025-12-31T23:59:59');
+
+          function updateHotCountdown() {
+            const now = new Date();
+            let diff = Math.floor((target - now) / 1000);
+
+            if (diff <= 0) {
+              hotCountdownEl.innerHTML = '<span class="text-muted">Đã hết hạn</span> <button class="btn btn-sm btn-outline-primary ms-2" onclick="resetHotCountdown()">Reset</button>';
+              hotCountdownEl.closest('.countdown-container').classList.remove('bg-danger');
+              hotCountdownEl.closest('.countdown-container').classList.add('bg-secondary');
+              return;
+            }
+
+            const days = Math.floor(diff / 86400); diff %= 86400;
+            const hours = Math.floor(diff / 3600); diff %= 3600;
+            const minutes = Math.floor(diff / 60); const seconds = diff % 60;
+
+            hotCountdownEl.innerHTML = `
+              <div class="badge bg-light text-danger py-1 px-2">${String(days).padStart(2,'0')}d</div>
+              <div class="badge bg-light text-danger py-1 px-2">${String(hours).padStart(2,'0')}h</div>
+              <div class="badge bg-light text-danger py-1 px-2">${String(minutes).padStart(2,'0')}m</div>
+              <div class="badge bg-light text-danger py-1 px-2">${String(seconds).padStart(2,'0')}s</div>
+            `;
+          }
+
+          updateHotCountdown();
+          setInterval(updateHotCountdown, 1000);
+        }
+
+        // === Discount products countdown ===
+        const discountCountdownEl = document.getElementById('discountCountdown');
+        if (discountCountdownEl) {
+          // target: 2025-12-31 23:59 local time
+          const target = new Date('2025-12-31T23:59:59');
+
+          function updateDiscountCountdown() {
+            const now = new Date();
+            let diff = Math.floor((target - now) / 1000);
+
+            if (diff <= 0) {
+              discountCountdownEl.innerHTML = '<span class="text-muted">Đã hết hạn</span> <button class="btn btn-sm btn-outline-success ms-2" onclick="resetDiscountCountdown()">Reset</button>';
+              discountCountdownEl.closest('.countdown-container').classList.remove('bg-success');
+              discountCountdownEl.closest('.countdown-container').classList.add('bg-secondary');
+              return;
+            }
+
+            const days = Math.floor(diff / 86400); diff %= 86400;
+            const hours = Math.floor(diff / 3600); diff %= 3600;
+            const minutes = Math.floor(diff / 60); const seconds = diff % 60;
+
+            discountCountdownEl.innerHTML = `
+              <div class="badge bg-light text-success py-1 px-2">${String(days).padStart(2,'0')}d</div>
+              <div class="badge bg-light text-success py-1 px-2">${String(hours).padStart(2,'0')}h</div>
+              <div class="badge bg-light text-success py-1 px-2">${String(minutes).padStart(2,'0')}m</div>
+              <div class="badge bg-light text-success py-1 px-2">${String(seconds).padStart(2,'0')}s</div>
+            `;
+          }
+
+          updateDiscountCountdown();
+          setInterval(updateDiscountCountdown, 1000);
+        }
+      });
+    </script>
+</body>
+</html>

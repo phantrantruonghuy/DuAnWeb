@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Products to SQL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3>📤 Export Products từ localStorage sang SQL</h3>
+            </div>
+            <div class="card-body">
+                <p>Script này sẽ đọc 54 sản phẩm từ <code>js/main.js</code> và tạo câu lệnh SQL INSERT.</p>
+                
+                <button class="btn btn-success btn-lg" onclick="exportToSQL()">
+                    <i class="fas fa-download"></i> Export SQL
+                </button>
+                
+                <hr>
+                
+                <h5>Kết quả:</h5>
+                <textarea id="sqlOutput" class="form-control" rows="20" placeholder="SQL sẽ hiển thị ở đây..."></textarea>
+                
+                <button class="btn btn-primary mt-3" onclick="copySQLToClipboard()">
+                    <i class="fas fa-copy"></i> Copy SQL
+                </button>
+                
+                <button class="btn btn-info mt-3" onclick="downloadSQL()">
+                    <i class="fas fa-file-download"></i> Download SQL File
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function exportToSQL() {
+            let sql = "-- Import 54 sản phẩm vào MySQL\n";
+            sql += "-- Tạo bởi export-products.html\n\n";
+            sql += "TRUNCATE TABLE products;\n\n";
+            
+            products.forEach(product => {
+                const specs = JSON.stringify(product.specs).replace(/'/g, "\\'");
+                const description = product.description.replace(/'/g, "\\'");
+                const image = product.image.replace(/'/g, "\\'");
+                
+                sql += `INSERT INTO products (id, name, brand, price, oldPrice, discount, image, category, ram, storage, rating, hot, bestSelling, stock, specs, description) VALUES (\n`;
+                sql += `  ${product.id},\n`;
+                sql += `  '${product.name}',\n`;
+                sql += `  '${product.brand}',\n`;
+                sql += `  ${product.price},\n`;
+                sql += `  ${product.oldPrice || 'NULL'},\n`;
+                sql += `  ${product.discount || 0},\n`;
+                sql += `  '${image}',\n`;
+                sql += `  '${product.category}',\n`;
+                sql += `  ${product.ram},\n`;
+                sql += `  ${product.storage},\n`;
+                sql += `  ${product.rating},\n`;
+                sql += `  ${product.hot ? 1 : 0},\n`;
+                sql += `  ${product.bestSelling ? 1 : 0},\n`;
+                sql += `  10,\n`;
+                sql += `  '${specs}',\n`;
+                sql += `  '${description}'\n`;
+                sql += `);\n\n`;
+            });
+            
+            document.getElementById('sqlOutput').value = sql;
+            alert(`✅ Đã export ${products.length} sản phẩm thành SQL!`);
+        }
+        
+        function copySQLToClipboard() {
+            const textarea = document.getElementById('sqlOutput');
+            textarea.select();
+            document.execCommand('copy');
+            alert('✅ Đã copy SQL vào clipboard!');
+        }
+        
+        function downloadSQL() {
+            const sql = document.getElementById('sqlOutput').value;
+            if (!sql) {
+                alert('⚠️ Vui lòng Export SQL trước!');
+                return;
+            }
+            
+            const blob = new Blob([sql], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'import_products.sql';
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('✅ Đã tải file import_products.sql!');
+        }
+    </script>
+</body>
+</html>

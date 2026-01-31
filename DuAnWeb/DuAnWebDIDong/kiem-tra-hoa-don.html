@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm tra hóa đơn - Thế Giới Di Động</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/banners/08Oct Anis  Free Upload .png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+<header class="header-top py-2">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+      <!-- Logo -->
+      <div id="logoContainer"></div>
+
+      <!-- Thanh tìm kiếm -->
+      <form class="search-form flex-grow-1 mx-3" style="max-width:600px;">
+        <div class="input-group rounded-pill overflow-hidden shadow-sm">
+          <input type="text" class="form-control border-0" placeholder="Bạn cần tìm gì?" id="searchInput">
+          <button class="btn btn-light px-4" type="submit">
+            <i class="fas fa-search text-dark"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Hành động -->
+      <div class="header-actions d-flex align-items-center gap-4 flex-shrink-0">
+        <a href="lienhe.html" class="text-dark text-decoration-none d-flex align-items-center gap-1">
+          <i class="fas fa-headset"></i> <span>Hỗ trợ</span>
+        </a>
+        <a href="login.html" class="text-dark text-decoration-none d-flex align-items-center gap-1" id="userAccountLink">
+          <i class="fas fa-user"></i> <span>Đăng nhập</span>
+        </a>
+        <a href="giohang.html" class="text-dark text-decoration-none position-relative d-flex align-items-center gap-1">
+          <i class="fas fa-shopping-cart"></i> <span>Giỏ hàng</span>
+          <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Kiểm tra hóa đơn</li>
+            </ol>
+        </nav>
+
+        <h2 class="text-center mb-4"><i class="fas fa-file-invoice text-primary"></i> Kiểm tra hóa đơn</h2>
+        
+        <!-- Search Form -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-3"><i class="fas fa-search"></i> Tra cứu đơn hàng</h5>
+                        <form id="searchOrderForm">
+                            <div class="mb-3">
+                                <label for="orderId" class="form-label">Mã đơn hàng</label>
+                                <input type="text" class="form-control" id="orderId" placeholder="Nhập mã đơn hàng (VD: 1735123456789)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="phoneNumber" placeholder="Nhập số điện thoại đặt hàng">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Tra cứu
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Result -->
+        <div id="orderResult" class="d-none">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-receipt"></i> Thông tin đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Thông tin khách hàng</h6>
+                            <p><strong>Họ tên:</strong> <span id="resultName"></span></p>
+                            <p><strong>Số điện thoại:</strong> <span id="resultPhone"></span></p>
+                            <p><strong>Email:</strong> <span id="resultEmail"></span></p>
+                            <p><strong>Địa chỉ:</strong> <span id="resultAddress"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Thông tin đơn hàng</h6>
+                            <p><strong>Mã đơn hàng:</strong> <span id="resultOrderId"></span></p>
+                            <p><strong>Ngày đặt:</strong> <span id="resultDate"></span></p>
+                            <p><strong>Trạng thái:</strong> <span id="resultStatus" class="badge"></span></p>
+                            <p><strong>Phương thức thanh toán:</strong> <span id="resultPayment"></span></p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6 class="text-muted">Sản phẩm đã đặt</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-end">Đơn giá</th>
+                                    <th class="text-end">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultItems"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Tạm tính:</strong></td>
+                                    <td class="text-end" id="resultSubtotal"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Giảm giá:</strong></td>
+                                    <td class="text-end text-danger" id="resultDiscount"></td>
+                                </tr>
+                                <tr class="table-primary">
+                                    <td colspan="3" class="text-end"><strong>Tổng cộng:</strong></td>
+                                    <td class="text-end"><strong id="resultTotal"></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Result -->
+        <div id="noResult" class="d-none text-center py-5">
+            <i class="fas fa-search fa-4x text-muted mb-3"></i>
+            <h4>Không tìm thấy đơn hàng</h4>
+            <p class="text-muted">Vui lòng kiểm tra lại mã đơn hàng và số điện thoại</p>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer py-5" style="background-color: #ffffcc; color: #000;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <h5 class="text-dark mb-3" data-setting="websiteName">Thế Giới Di Động</h5>
+                <p>Hệ thống bán lẻ điện thoại di động hàng đầu Việt Nam</p>
+                <div class="social-links mt-3" id="socialLinks">
+                    <a href="#" class="text-dark me-3" data-social="facebook" style="display: none;"><i class="fab fa-facebook fa-2x"></i></a>
+                    <a href="#" class="text-dark me-3" data-social="youtube" style="display: none;"><i class="fab fa-youtube fa-2x"></i></a>
+                    <a href="#" class="text-dark me-3" data-social="instagram" style="display: none;"><i class="fab fa-instagram fa-2x"></i></a>
+                    <a href="#" class="text-dark" data-social="zalo" style="display: none;"><i class="fas fa-comment-dots fa-2x"></i></a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-warning mb-3">Thông tin</h5>
+                <ul class="list-unstyled">
+                    <li><a href="gioi-thieu.html" class="text-dark text-decoration-none">Giới thiệu công ty</a></li>
+                    <li><a href="chinh-sach-bao-mat.html" class="text-dark text-decoration-none">Chính sách bảo mật</a></li>
+                    <li><a href="quy-che-hoat-dong.html" class="text-dark text-decoration-none">Quy chế hoạt động</a></li>
+                    <li><a href="kiem-tra-hoa-don.html" class="text-dark text-decoration-none">Kiểm tra hóa đơn</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-warning mb-3">Hỗ trợ</h5>
+                <ul class="list-unstyled">
+                    <li><a href="huong-dan-mua-hang.html" class="text-dark text-decoration-none">Hướng dẫn mua hàng</a></li>
+                    <li><a href="huong-dan-thanh-toan.html" class="text-dark text-decoration-none">Hướng dẫn thanh toán</a></li>
+                    <li><a href="chinh-sach-doi-tra.html" class="text-dark text-decoration-none">Chính sách đổi trả</a></li>
+                    <li><a href="bao-hanh-sua-chua.html" class="text-dark text-decoration-none">Bảo hành & sửa chữa</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-warning mb-3">Liên hệ</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-phone"></i> Hotline: <span data-setting="hotline">1800.6789</span></li>
+                    <li><i class="fas fa-envelope"></i> Email: <span data-setting="email">info@thegioididong.com</span></li>
+                    <li><i class="fas fa-map-marker-alt"></i> <span data-setting="address">123 Đường ABC, Quận 1, TP.HCM</span></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4 bg-dark">
+        <div class="text-center">
+            <p class="mb-0">&copy; 2025 <span data-setting="websiteName">Thế Giới Di Động</span>. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="btn btn-primary btn-floating">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<!-- Custom JS -->
+<script src="js/settings-loader.js"></script>
+<script src="js/main.js"></script>
+<script>
+    // Initialize logo
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoContainer = document.getElementById('logoContainer');
+        if (logoContainer) {
+            logoContainer.innerHTML = createLogo();
+        }
+    });
+
+    // Search order form
+    document.getElementById('searchOrderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const orderId = document.getElementById('orderId').value.trim();
+        const phone = document.getElementById('phoneNumber').value.trim();
+        
+        if (!orderId && !phone) {
+            alert('Vui lòng nhập mã đơn hàng hoặc số điện thoại');
+            return;
+        }
+        
+        // Get orders from localStorage
+        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        
+        // Find order
+        let order = null;
+        if (orderId) {
+            order = orders.find(o => o.id == orderId);
+        }
+        if (!order && phone) {
+            order = orders.find(o => o.phone === phone);
+        }
+        
+        const orderResult = document.getElementById('orderResult');
+        const noResult = document.getElementById('noResult');
+        
+        if (order) {
+            // Show order details
+            orderResult.classList.remove('d-none');
+            noResult.classList.add('d-none');
+            
+            document.getElementById('resultName').textContent = order.name || 'N/A';
+            document.getElementById('resultPhone').textContent = order.phone || 'N/A';
+            document.getElementById('resultEmail').textContent = order.email || 'N/A';
+            document.getElementById('resultAddress').textContent = order.address || 'N/A';
+            document.getElementById('resultOrderId').textContent = order.id;
+            document.getElementById('resultDate').textContent = order.date || new Date(order.id).toLocaleString('vi-VN');
+            
+            // Status badge
+            const statusEl = document.getElementById('resultStatus');
+            statusEl.textContent = order.status || 'Chờ xác nhận';
+            statusEl.className = 'badge';
+            switch(order.status) {
+                case 'Hoàn thành':
+                    statusEl.classList.add('bg-success');
+                    break;
+                case 'Đang giao':
+                    statusEl.classList.add('bg-info');
+                    break;
+                case 'Đã xác nhận':
+                    statusEl.classList.add('bg-primary');
+                    break;
+                case 'Đã hủy':
+                    statusEl.classList.add('bg-danger');
+                    break;
+                default:
+                    statusEl.classList.add('bg-warning');
+            }
+            
+            document.getElementById('resultPayment').textContent = order.paymentMethodName || order.paymentMethod || 'N/A';
+            
+            // Items
+            const itemsHtml = (order.items || []).map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td class="text-center">${item.quantity}</td>
+                    <td class="text-end">${(item.price || 0).toLocaleString('vi-VN')}đ</td>
+                    <td class="text-end">${((item.price || 0) * item.quantity).toLocaleString('vi-VN')}đ</td>
+                </tr>
+            `).join('');
+            document.getElementById('resultItems').innerHTML = itemsHtml;
+            
+            document.getElementById('resultSubtotal').textContent = (order.subtotal || 0).toLocaleString('vi-VN') + 'đ';
+            document.getElementById('resultDiscount').textContent = '-' + (order.discount || 0).toLocaleString('vi-VN') + 'đ';
+            document.getElementById('resultTotal').textContent = (order.total || 0).toLocaleString('vi-VN') + 'đ';
+        } else {
+            // No order found
+            orderResult.classList.add('d-none');
+            noResult.classList.remove('d-none');
+        }
+    });
+</script>
+</body>
+</html>

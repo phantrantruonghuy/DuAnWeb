@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ đồ hệ thống - Website Cửa hàng Điện thoại</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/banners/08Oct Anis  Free Upload .png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 13pt;
+            line-height: 1.5;
+            padding: 20px;
+            background: #fff;
+            color: #000;
+        }
+        
+        .page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 16pt;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        h2 {
+            font-size: 14pt;
+            margin: 30px 0 20px 0;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            font-size: 13pt;
+            margin: 20px 0 15px 0;
+            font-style: italic;
+        }
+        
+        .diagram-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #fafafa;
+        }
+        
+        .diagram-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        /* ========== KIẾN TRÚC HỆ THỐNG ========== */
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .arch-layer {
+            width: 500px;
+            padding: 20px;
+            border: 2px solid #000;
+            text-align: center;
+            background: #fff;
+        }
+        
+        .arch-layer-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .arch-layer-tech {
+            font-size: 11pt;
+            color: #555;
+        }
+        
+        .arch-arrow {
+            font-size: 20px;
+            color: #000;
+        }
+        
+        /* ========== USE CASE DIAGRAM ========== */
+        .usecase-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            min-height: 400px;
+        }
+        
+        .actor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+        }
+        
+        .actor-icon {
+            width: 40px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .actor-head {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .actor-body {
+            width: 2px;
+            height: 25px;
+            background: #000;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .actor-arms {
+            width: 30px;
+            height: 2px;
+            background: #000;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .actor-legs {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .actor-legs::before,
+        .actor-legs::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 25px;
+            background: #000;
+        }
+        
+        .actor-legs::before {
+            transform: rotate(-20deg);
+            left: -8px;
+        }
+        
+        .actor-legs::after {
+            transform: rotate(20deg);
+            left: 6px;
+        }
+        
+        .actor-name {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .usecase-box {
+            flex: 1;
+            border: 2px solid #000;
+            margin: 0 20px;
+            padding: 20px;
+            min-height: 350px;
+        }
+        
+        .usecase-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+        }
+        
+        .usecase-item {
+            border: 1px solid #000;
+            border-radius: 30px;
+            padding: 8px 15px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 11pt;
+        }
+        
+        /* ========== FLOWCHART ========== */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .flow-start-end {
+            border: 2px solid #000;
+            border-radius: 30px;
+            padding: 10px 30px;
+            background: #fff;
+        }
+        
+        .flow-process {
+            border: 2px solid #000;
+            padding: 10px 20px;
+            background: #fff;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .flow-decision {
+            width: 150px;
+            height: 80px;
+            border: 2px solid #000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            margin: 20px 0;
+        }
+        
+        .flow-decision span {
+            transform: rotate(-45deg);
+            font-size: 11pt;
+        }
+        
+        .flow-arrow {
+            font-size: 18px;
+        }
+        
+        .flow-branch {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            width: 100%;
+        }
+        
+        .flow-branch-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .flow-label {
+            font-size: 10pt;
+            font-style: italic;
+        }
+        
+        /* ========== SEQUENCE DIAGRAM ========== */
+        .sequence-diagram {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .sequence-actors {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .sequence-actor {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #000;
+            background: #fff;
+            min-width: 100px;
+        }
+        
+        .sequence-lifelines {
+            display: flex;
+            justify-content: space-around;
+            height: 400px;
+            position: relative;
+        }
+        
+        .sequence-lifeline {
+            width: 2px;
+            background: #000;
+            height: 100%;
+            position: relative;
+        }
+        
+        .sequence-lifeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 4px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                #000 0px,
+                #000 5px,
+                transparent 5px,
+                transparent 10px
+            );
+        }
+        
+        .sequence-messages {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+        }
+        
+        .sequence-message {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 11pt;
+        }
+        
+        .sequence-message-line {
+            flex: 1;
+            height: 1px;
+            background: #000;
+            position: relative;
+        }
+        
+        .sequence-message-arrow {
+            position: absolute;
+            right: -5px;
+            top: -4px;
+            border: solid #000;
+            border-width: 0 2px 2px 0;
+            padding: 4px;
+            transform: rotate(-45deg);
+        }
+        
+        .sequence-message-text {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            background: #fafafa;
+            padding: 0 5px;
+        }
+        
+        /* ========== DATA STRUCTURE ========== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #000;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        
+        .data-table .field-name {
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* ========== ER DIAGRAM ========== */
+        .er-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .er-entity {
+            border: 2px solid #000;
+            min-width: 150px;
+        }
+        
+        .er-entity-name {
+            background: #f0f0f0;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #000;
+        }
+        
+        .er-entity-fields {
+            padding: 10px;
+        }
+        
+        .er-field {
+            padding: 3px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+        }
+        
+        .er-pk {
+            font-weight: bold;
+        }
+        
+        .er-relation {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .er-line {
+            width: 50px;
+            height: 2px;
+            background: #000;
+        }
+        
+        /* ========== WEBSITE STRUCTURE DIAGRAM ========== */
+        .website-structure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .ws-level {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        
+        .ws-node {
+            border: 2px solid #000;
+            padding: 10px 15px;
+            text-align: center;
+            background: #fff;
+            min-width: 120px;
+            position: relative;
+        }
+        
+        .ws-node.main {
+            background: #e8e8e8;
+            border-width: 3px;
+            font-weight: bold;
+        }
+        
+        .ws-node.admin {
+            background: #ffe6e6;
+            border-color: #c00;
+        }
+        
+        .ws-node.auth {
+            background: #e6f3ff;
+            border-color: #06c;
+        }
+        
+        .ws-node.shop {
+            background: #e6ffe6;
+            border-color: #060;
+        }
+        
+        .ws-node.info {
+            background: #fff6e6;
+            border-color: #f90;
+        }
+        
+        .ws-node-title {
+            font-weight: bold;
+            font-size: 11pt;
+        }
+        
+        .ws-node-file {
+            font-size: 9pt;
+            color: #666;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .ws-connector {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: 30px;
+        }
+        
+        .ws-vline {
+            width: 2px;
+            height: 100%;
+            background: #000;
+        }
+        
+        .ws-hline {
+            height: 2px;
+            background: #000;
+            position: absolute;
+            top: 0;
+        }
+        
+        .ws-branch-lines {
+            position: relative;
+            width: 100%;
+            height: 30px;
+        }
+        
+        .ws-branch-lines::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 15px;
+            background: #000;
+            transform: translateX(-50%);
+        }
+        
+        .ws-branch-lines::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #000;
+        }
+        
+        .ws-down-arrows {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        .ws-down-arrow {
+            width: 2px;
+            height: 15px;
+            background: #000;
+            position: relative;
+        }
+        
+        .ws-down-arrow::after {
+            content: '▼';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+        }
+        
+        .ws-group {
+            border: 1px dashed #999;
+            padding: 15px;
+            margin: 10px 5px;
+            background: #fafafa;
+        }
+        
+        .ws-group-title {
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #555;
+        }
+        
+        .ws-group-nodes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .ws-arrow-down {
+            text-align: center;
+            font-size: 20px;
+            color: #000;
+        }
+        
+        .ws-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+        }
+        
+        .ws-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10pt;
+        }
+        
+        .ws-legend-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000;
+        }
+        
+        /* ========== FOLDER STRUCTURE ========== */
+        .folder-structure {
+            font-family: 'Courier New', monospace;
+            font-size: 11pt;
+            background: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        
+        .folder-structure .folder {
+            font-weight: bold;
+        }
+        
+        .folder-structure .file {
+            color: #333;
+        }
+        
+        .folder-structure .comment {
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* ========== STORAGE DIAGRAM ========== */
+        .storage-diagram {
+            border: 2px solid #000;
+            padding: 20px;
+        }
+        
+        .storage-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #000;
+        }
+        
+        .storage-section {
+            border: 1px solid #000;
+            margin: 15px 0;
+            padding: 15px;
+        }
+        
+        .storage-section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .storage-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed #ccc;
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+        }
+        
+        .storage-key {
+            font-weight: bold;
+        }
+        
+        /* ========== ACTIVITY DIAGRAM ========== */
+        .activity-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .activity-start {
+            width: 30px;
+            height: 30px;
+            background: #000;
+            border-radius: 50%;
+        }
+        
+        .activity-end {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .activity-end::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .activity-action {
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 10px 25px;
+            background: #fff;
+            text-align: center;
+        }
+        
+        .activity-decision {
+            width: 100px;
+            height: 60px;
+            border: 2px solid #000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+        
+        .activity-decision span {
+            transform: rotate(-45deg);
+            font-size: 10pt;
+        }
+        
+        .activity-arrow {
+            font-size: 16px;
+        }
+        
+        .activity-branch {
+            display: flex;
+            gap: 80px;
+        }
+        
+        .activity-branch-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .activity-label {
+            font-size: 9pt;
+            font-style: italic;
+            background: #fafafa;
+            padding: 2px 5px;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .page {
+                padding: 0;
+            }
+            
+            .diagram-container {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            h2 {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1>Các sơ đồ hệ thống<br>Website Cửa hàng Bán Điện thoại</h1>
+        
+        <!-- ========== 1. KIẾN TRÚC HỆ THỐNG ========== -->
+        <h2>1. Kiến trúc hệ thống</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.1: Sơ đồ kiến trúc hệ thống</div>
+            <div class="architecture">
+                <div class="arch-layer">
+                    <div class="arch-layer-title">GIAO DIỆN NGƯỜI DÙNG (Presentation Layer)</div>
+                    <div class="arch-layer-tech">HTML5 + CSS3 + Bootstrap 5</div>
+                </div>
+                <div class="arch-arrow">↕</div>
+                <div class="arch-layer">
+                    <div class="arch-layer-title">XỬ LÝ TƯƠNG TÁC (Business Logic Layer)</div>
+                    <div class="arch-layer-tech">JavaScript (ES6+)</div>
+                </div>
+                <div class="arch-arrow">↕</div>
+                <div class="arch-layer">
+                    <div class="arch-layer-title">LƯU TRỮ DỮ LIỆU (Data Layer)</div>
+                    <div class="arch-layer-tech">Local Storage / Session Storage</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 2. USE CASE DIAGRAM ========== -->
+        <h2>2. Sơ đồ Use Case</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.2: Sơ đồ Use Case tổng quát</div>
+            <div class="usecase-diagram">
+                <!-- Actor: Khách hàng -->
+                <div class="actor">
+                    <div class="actor-icon">
+                        <div class="actor-head"></div>
+                        <div class="actor-body"></div>
+                        <div class="actor-arms"></div>
+                        <div class="actor-legs"></div>
+                    </div>
+                    <div class="actor-name">Khách hàng</div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="usecase-box">
+                    <div class="usecase-title">HỆ THỐNG WEBSITE BÁN ĐIỆN THOẠI</div>
+                    <div class="usecase-item">Xem trang chủ</div>
+                    <div class="usecase-item">Xem danh sách sản phẩm</div>
+                    <div class="usecase-item">Tìm kiếm / Lọc sản phẩm</div>
+                    <div class="usecase-item">Xem chi tiết sản phẩm</div>
+                    <div class="usecase-item">Đăng ký / Đăng nhập</div>
+                    <div class="usecase-item">Quản lý giỏ hàng</div>
+                    <div class="usecase-item">Đặt hàng</div>
+                    <div class="usecase-item">Xem đánh giá sản phẩm</div>
+                    <div class="usecase-item">Gửi liên hệ</div>
+                </div>
+                
+                <!-- Actor: Admin -->
+                <div class="actor">
+                    <div class="actor-icon">
+                        <div class="actor-head"></div>
+                        <div class="actor-body"></div>
+                        <div class="actor-arms"></div>
+                        <div class="actor-legs"></div>
+                    </div>
+                    <div class="actor-name">Admin</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 3. FLOWCHART THÊM GIỎ HÀNG ========== -->
+        <h2>3. Sơ đồ xử lý thêm sản phẩm vào giỏ hàng</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.3: Lưu đồ xử lý thêm sản phẩm vào giỏ hàng</div>
+            <div class="flowchart">
+                <div class="flow-start-end">Bắt đầu</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-process">Người dùng click "Thêm vào giỏ"</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-decision"><span>Đã đăng nhập?</span></div>
+                
+                <div class="flow-branch">
+                    <div class="flow-branch-item">
+                        <div class="flow-label">Chưa</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Hiển thị thông báo<br>yêu cầu đăng nhập</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-start-end">Kết thúc</div>
+                    </div>
+                    <div class="flow-branch-item">
+                        <div class="flow-label">Rồi</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Tìm sản phẩm trong giỏ</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-decision"><span>Đã có?</span></div>
+                        <div style="display: flex; gap: 50px;">
+                            <div class="flow-branch-item">
+                                <div class="flow-label">Có</div>
+                                <div class="flow-arrow">↓</div>
+                                <div class="flow-process">Tăng số lượng</div>
+                            </div>
+                            <div class="flow-branch-item">
+                                <div class="flow-label">Chưa</div>
+                                <div class="flow-arrow">↓</div>
+                                <div class="flow-process">Thêm mới</div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Lưu vào Local Storage</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Cập nhật số lượng giỏ hàng</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Hiển thị thông báo thành công</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-start-end">Kết thúc</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 4. FLOWCHART ĐẶT HÀNG ========== -->
+        <h2>4. Sơ đồ xử lý đặt hàng</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.4: Lưu đồ xử lý đặt hàng</div>
+            <div class="flowchart">
+                <div class="flow-start-end">Bắt đầu</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-process">Người dùng click "Đặt hàng"</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-process">Kiểm tra form thông tin</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-decision"><span>Hợp lệ?</span></div>
+                
+                <div class="flow-branch">
+                    <div class="flow-branch-item">
+                        <div class="flow-label">Không</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Hiển thị lỗi</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-start-end">Kết thúc</div>
+                    </div>
+                    <div class="flow-branch-item">
+                        <div class="flow-label">Có</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Lấy giỏ hàng từ Storage</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Tạo đơn hàng mới</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Lưu đơn hàng vào Storage</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Xóa giỏ hàng</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-process">Chuyển trang thành công</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-start-end">Kết thúc</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 5. ER DIAGRAM ========== -->
+        <h2>5. Sơ đồ quan hệ dữ liệu</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.5: Sơ đồ quan hệ dữ liệu (ER Diagram)</div>
+            <div class="er-diagram">
+                <div class="er-entity">
+                    <div class="er-entity-name">USER</div>
+                    <div class="er-entity-fields">
+                        <div class="er-field er-pk">id (PK)</div>
+                        <div class="er-field">name</div>
+                        <div class="er-field">email</div>
+                        <div class="er-field">phone</div>
+                        <div class="er-field">password</div>
+                        <div class="er-field">createdAt</div>
+                    </div>
+                </div>
+                
+                <div class="er-relation">
+                    <div class="er-line"></div>
+                    <span>1</span>
+                    <div class="er-line"></div>
+                    <span>N</span>
+                    <div class="er-line"></div>
+                </div>
+                
+                <div class="er-entity">
+                    <div class="er-entity-name">ORDER</div>
+                    <div class="er-entity-fields">
+                        <div class="er-field er-pk">id (PK)</div>
+                        <div class="er-field">userId (FK)</div>
+                        <div class="er-field">orderNumber</div>
+                        <div class="er-field">items[]</div>
+                        <div class="er-field">total</div>
+                        <div class="er-field">status</div>
+                        <div class="er-field">createdAt</div>
+                    </div>
+                </div>
+                
+                <div class="er-relation">
+                    <div class="er-line"></div>
+                    <span>N</span>
+                    <div class="er-line"></div>
+                    <span>N</span>
+                    <div class="er-line"></div>
+                </div>
+                
+                <div class="er-entity">
+                    <div class="er-entity-name">PRODUCT</div>
+                    <div class="er-entity-fields">
+                        <div class="er-field er-pk">id (PK)</div>
+                        <div class="er-field">name</div>
+                        <div class="er-field">brand</div>
+                        <div class="er-field">price</div>
+                        <div class="er-field">image</div>
+                        <div class="er-field">specs{}</div>
+                        <div class="er-field">rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 6. STORAGE DIAGRAM ========== -->
+        <h2>6. Mô hình lưu trữ dữ liệu</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.6: Mô hình lưu trữ dữ liệu Browser Storage</div>
+            <div class="storage-diagram">
+                <div class="storage-title">BROWSER STORAGE</div>
+                
+                <div class="storage-section">
+                    <div class="storage-section-title">LOCAL STORAGE (Dữ liệu lưu vĩnh viễn)</div>
+                    <div class="storage-item">
+                        <span class="storage-key">'products'</span>
+                        <span>→ JSON Array (Danh sách sản phẩm)</span>
+                    </div>
+                    <div class="storage-item">
+                        <span class="storage-key">'cart'</span>
+                        <span>→ JSON Array (Giỏ hàng)</span>
+                    </div>
+                    <div class="storage-item">
+                        <span class="storage-key">'users'</span>
+                        <span>→ JSON Array (Danh sách người dùng)</span>
+                    </div>
+                    <div class="storage-item">
+                        <span class="storage-key">'orders'</span>
+                        <span>→ JSON Array (Danh sách đơn hàng)</span>
+                    </div>
+                    <div class="storage-item">
+                        <span class="storage-key">'reviews'</span>
+                        <span>→ JSON Array (Đánh giá sản phẩm)</span>
+                    </div>
+                    <div class="storage-item">
+                        <span class="storage-key">'contacts'</span>
+                        <span>→ JSON Array (Tin nhắn liên hệ)</span>
+                    </div>
+                </div>
+                
+                <div class="storage-section">
+                    <div class="storage-section-title">SESSION STORAGE (Dữ liệu phiên làm việc)</div>
+                    <div class="storage-item">
+                        <span class="storage-key">'currentUser'</span>
+                        <span>→ JSON Object (Người dùng đang đăng nhập)</span>
+                    </div>
+                    <div class="storage-item">
+                        <span class="storage-key">'lastOrderId'</span>
+                        <span>→ Number (Mã đơn hàng vừa tạo)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 7. ACTIVITY DIAGRAM ========== -->
+        <h2>7. Sơ đồ hoạt động quy trình mua hàng</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.7: Sơ đồ Activity - Quy trình mua hàng</div>
+            <div class="activity-diagram">
+                <div class="activity-start"></div>
+                <div class="activity-arrow">↓</div>
+                <div class="activity-action">Truy cập website</div>
+                <div class="activity-arrow">↓</div>
+                <div class="activity-action">Xem danh sách sản phẩm</div>
+                <div class="activity-arrow">↓</div>
+                <div class="activity-action">Chọn sản phẩm</div>
+                <div class="activity-arrow">↓</div>
+                <div class="activity-action">Xem chi tiết sản phẩm</div>
+                <div class="activity-arrow">↓</div>
+                <div class="activity-decision"><span>Mua?</span></div>
+                
+                <div class="activity-branch">
+                    <div class="activity-branch-item">
+                        <div class="activity-label">Không</div>
+                        <div class="activity-arrow">↓</div>
+                        <div class="activity-action">Tiếp tục xem</div>
+                        <div class="activity-arrow">↺</div>
+                    </div>
+                    <div class="activity-branch-item">
+                        <div class="activity-label">Có</div>
+                        <div class="activity-arrow">↓</div>
+                        <div class="activity-decision"><span>Đã đăng nhập?</span></div>
+                        <div class="activity-branch" style="gap: 40px; margin-top: 10px;">
+                            <div class="activity-branch-item">
+                                <div class="activity-label">Chưa</div>
+                                <div class="activity-arrow">↓</div>
+                                <div class="activity-action">Đăng nhập/<br>Đăng ký</div>
+                            </div>
+                            <div class="activity-branch-item">
+                                <div class="activity-label">Rồi</div>
+                                <div class="activity-arrow">↓</div>
+                            </div>
+                        </div>
+                        <div class="activity-arrow">↓</div>
+                        <div class="activity-action">Thêm vào giỏ hàng</div>
+                        <div class="activity-arrow">↓</div>
+                        <div class="activity-decision"><span>Thanh toán?</span></div>
+                        <div class="activity-branch" style="gap: 40px; margin-top: 10px;">
+                            <div class="activity-branch-item">
+                                <div class="activity-label">Không</div>
+                                <div class="activity-arrow">↺</div>
+                            </div>
+                            <div class="activity-branch-item">
+                                <div class="activity-label">Có</div>
+                                <div class="activity-arrow">↓</div>
+                                <div class="activity-action">Nhập thông tin<br>giao hàng</div>
+                                <div class="activity-arrow">↓</div>
+                                <div class="activity-action">Chọn phương thức<br>thanh toán</div>
+                                <div class="activity-arrow">↓</div>
+                                <div class="activity-action">Xác nhận đơn hàng</div>
+                                <div class="activity-arrow">↓</div>
+                                <div class="activity-action">Hiển thị trang<br>thành công</div>
+                                <div class="activity-arrow">↓</div>
+                                <div class="activity-end"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 8. SƠ ĐỒ CẤU TRÚC WEBSITE ========== -->
+        <h2>8. Sơ đồ cấu trúc Website</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.8: Sơ đồ cấu trúc Website bán điện thoại</div>
+            
+            <style>
+                .tree-diagram {
+                    font-family: 'Segoe UI', Arial, sans-serif;
+                    padding: 20px;
+                }
+                
+                .tree-node {
+                    border: 2px solid #333;
+                    padding: 8px 15px;
+                    text-align: center;
+                    background: #fff;
+                    display: inline-block;
+                    min-width: 90px;
+                    border-radius: 5px;
+                }
+                
+                .tree-node.root {
+                    background: #4a90d9;
+                    color: #fff;
+                    font-weight: bold;
+                    border-color: #2d5a8a;
+                }
+                
+                .tree-node .node-title {
+                    font-weight: bold;
+                    font-size: 11pt;
+                }
+                
+                .tree-node .node-file {
+                    font-size: 9pt;
+                    color: #666;
+                    font-family: 'Courier New', monospace;
+                }
+                
+                .tree-node.root .node-file {
+                    color: #cce5ff;
+                }
+                
+                /* Level 0 - Root */
+                .tree-level-0 {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 10px;
+                }
+                
+                /* Connector from root */
+                .tree-connector-main {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .tree-vline {
+                    width: 2px;
+                    height: 20px;
+                    background: #333;
+                }
+                
+                .tree-hline-container {
+                    position: relative;
+                    width: 680px;
+                    height: 20px;
+                }
+                
+                .tree-hline {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background: #333;
+                }
+                
+                .tree-drop {
+                    position: absolute;
+                    width: 2px;
+                    height: 18px;
+                    background: #333;
+                    top: 2px;
+                }
+                
+                /* Level 1 */
+                .tree-level-1 {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 720px;
+                    margin: 0 auto 10px auto;
+                }
+                
+                .tree-column {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .tree-column .tree-vline {
+                    height: 15px;
+                }
+                
+                /* Arrow */
+                .tree-arrow {
+                    text-align: center;
+                    font-size: 14px;
+                    color: #333;
+                    margin: 3px 0;
+                }
+                
+                /* Admin box */
+                .admin-box {
+                    border: 3px solid #c00;
+                    background: #fff5f5;
+                    padding: 15px;
+                    margin-top: 20px;
+                    display: inline-block;
+                    border-radius: 8px;
+                }
+                
+                .admin-box-header {
+                    background: #c00;
+                    color: #fff;
+                    padding: 8px 15px;
+                    margin: -15px -15px 15px -15px;
+                    border-radius: 5px 5px 0 0;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                
+                .admin-box-file {
+                    text-align: center;
+                    font-family: 'Courier New', monospace;
+                    font-size: 10pt;
+                    color: #666;
+                    margin-bottom: 10px;
+                }
+                
+                .admin-box ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                
+                .admin-box li {
+                    padding: 5px 10px;
+                    border-bottom: 1px dashed #ccc;
+                    font-size: 11pt;
+                }
+                
+                .admin-box li:last-child {
+                    border-bottom: none;
+                }
+                
+                .admin-box li::before {
+                    content: "• ";
+                    color: #c00;
+                }
+            </style>
+            
+            <div class="tree-diagram">
+                <!-- Level 0: TRANG CHỦ -->
+                <div class="tree-level-0">
+                    <div class="tree-node root">
+                        <div class="node-title">TRANG CHỦ</div>
+                        <div class="node-file">(index.html)</div>
+                    </div>
+                </div>
+                
+                <!-- Connector từ root xuống 6 nhánh -->
+                <div class="tree-connector-main">
+                    <div class="tree-vline"></div>
+                    <div class="tree-hline-container">
+                        <div class="tree-hline"></div>
+                        <!-- 6 đường drop xuống -->
+                        <div class="tree-drop" style="left: 0;"></div>
+                        <div class="tree-drop" style="left: 16.6%;"></div>
+                        <div class="tree-drop" style="left: 33.3%;"></div>
+                        <div class="tree-drop" style="left: 50%;"></div>
+                        <div class="tree-drop" style="left: 66.6%;"></div>
+                        <div class="tree-drop" style="left: 83.3%;"></div>
+                        <div class="tree-drop" style="right: 0;"></div>
+                    </div>
+                </div>
+                
+                <!-- Level 1: 6 trang chính -->
+                <div class="tree-level-1">
+                    <!-- Cột 1: SẢN PHẨM -->
+                    <div class="tree-column">
+                        <div class="tree-node">
+                            <div class="node-title">SẢN PHẨM</div>
+                            <div class="node-file">(sanpham)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cột 2: CHI TIẾT -->
+                    <div class="tree-column">
+                        <div class="tree-node">
+                            <div class="node-title">CHI TIẾT</div>
+                            <div class="node-file">(chitiet)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cột 3: GIỎ HÀNG → THANH TOÁN → ĐẶT HÀNG THÀNH CÔNG -->
+                    <div class="tree-column">
+                        <div class="tree-node">
+                            <div class="node-title">GIỎ HÀNG</div>
+                            <div class="node-file">(giohang)</div>
+                        </div>
+                        <div class="tree-arrow">▼</div>
+                        <div class="tree-node">
+                            <div class="node-title">THANH TOÁN</div>
+                            <div class="node-file">(checkout)</div>
+                        </div>
+                        <div class="tree-arrow">▼</div>
+                        <div class="tree-node" style="background: #e6ffe6;">
+                            <div class="node-title">ĐẶT HÀNG</div>
+                            <div class="node-title">THÀNH CÔNG</div>
+                            <div class="node-file">(order-success)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cột 4: ĐÁNH GIÁ -->
+                    <div class="tree-column">
+                        <div class="tree-node">
+                            <div class="node-title">ĐÁNH GIÁ</div>
+                            <div class="node-file">(danhgia)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cột 5: LIÊN HỆ -->
+                    <div class="tree-column">
+                        <div class="tree-node">
+                            <div class="node-title">LIÊN HỆ</div>
+                            <div class="node-file">(lienhe)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cột 6: ĐĂNG NHẬP → TÀI KHOẢN -->
+                    <div class="tree-column">
+                        <div class="tree-node">
+                            <div class="node-title">ĐĂNG NHẬP</div>
+                            <div class="node-file">(login)</div>
+                        </div>
+                        <div class="tree-arrow">▼</div>
+                        <div class="tree-node">
+                            <div class="node-title">TÀI KHOẢN</div>
+                            <div class="node-file">(account)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Connector từ SẢN PHẨM và CHI TIẾT xuống ADMIN -->
+                <div style="display: flex; justify-content: center; margin-top: 20px;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div style="display: flex; align-items: flex-end; gap: 100px;">
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                <div style="font-size: 10pt; color: #666;">từ sanpham & chitiet</div>
+                                <div style="width: 2px; height: 30px; background: #333;"></div>
+                            </div>
+                        </div>
+                        <div class="tree-arrow">▼</div>
+                        
+                        <!-- Admin Box -->
+                        <div class="admin-box">
+                            <div class="admin-box-header">TRANG ADMIN</div>
+                            <div class="admin-box-file">(admin.html)</div>
+                            <ul>
+                                <li>Dashboard</li>
+                                <li>Quản lý Sản phẩm</li>
+                                <li>Quản lý Đơn hàng</li>
+                                <li>Quản lý Khách hàng</li>
+                                <li>Quản lý Đánh giá</li>
+                                <li>Quản lý Banner</li>
+                                <li>Cài đặt</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 9. SƠ ĐỒ LIÊN KẾT TRANG ========== -->
+        <h2>9. Sơ đồ liên kết giữa các trang</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.9: Sơ đồ liên kết và điều hướng giữa các trang</div>
+            <div style="padding: 20px;">
+                <table class="data-table" style="font-size: 11pt;">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">Từ trang</th>
+                            <th>Liên kết đến</th>
+                            <th style="width: 200px;">Điều kiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>index.html</strong></td>
+                            <td>→ sanpham.html, chitiet.html, giohang.html, login.html, lienhe.html, danhgia.html</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>sanpham.html</strong></td>
+                            <td>→ chitiet.html (xem chi tiết), giohang.html (thêm giỏ)</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>chitiet.html</strong></td>
+                            <td>→ giohang.html (thêm vào giỏ), login.html (chưa đăng nhập)</td>
+                            <td>Cần đăng nhập để thêm giỏ</td>
+                        </tr>
+                        <tr>
+                            <td><strong>giohang.html</strong></td>
+                            <td>→ checkout.html (đặt hàng), sanpham.html (tiếp tục mua)</td>
+                            <td>Giỏ hàng không rỗng</td>
+                        </tr>
+                        <tr>
+                            <td><strong>checkout.html</strong></td>
+                            <td>→ order-success.html (thành công), giohang.html (quay lại)</td>
+                            <td>Điền đầy đủ thông tin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>login.html</strong></td>
+                            <td>→ account.html (sau đăng nhập), index.html (trang trước)</td>
+                            <td>Đăng nhập/Đăng ký thành công</td>
+                        </tr>
+                        <tr>
+                            <td><strong>account.html</strong></td>
+                            <td>→ login.html (đăng xuất), chitiet.html (xem đơn hàng)</td>
+                            <td>Đã đăng nhập</td>
+                        </tr>
+                        <tr>
+                            <td><strong>admin-login.html</strong></td>
+                            <td>→ admin.html (đăng nhập thành công)</td>
+                            <td>Tài khoản Admin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>admin.html</strong></td>
+                            <td>→ admin-login.html (đăng xuất)</td>
+                            <td>Đã đăng nhập Admin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- ========== 10. SƠ ĐỒ LUỒNG DỮ LIỆU ========== -->
+        <h2>10. Sơ đồ luồng dữ liệu Website</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.10: Sơ đồ luồng dữ liệu (Data Flow Diagram)</div>
+            <div class="flowchart" style="gap: 15px;">
+                <!-- User Layer -->
+                <div style="display: flex; align-items: center; gap: 30px; justify-content: center; width: 100%;">
+                    <div class="actor">
+                        <div class="actor-icon">
+                            <div class="actor-head"></div>
+                            <div class="actor-body"></div>
+                            <div class="actor-arms"></div>
+                            <div class="actor-legs"></div>
+                        </div>
+                        <div class="actor-name">Người dùng</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span>Yêu cầu</span>
+                            <div style="width: 80px; height: 2px; background: #000; position: relative;">
+                                <span style="position: absolute; right: -8px; top: -5px;">→</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span>Phản hồi</span>
+                            <div style="width: 80px; height: 2px; background: #000; position: relative;">
+                                <span style="position: absolute; left: -8px; top: -5px;">←</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 2px solid #000; padding: 15px 25px; border-radius: 10px; background: #f0f0f0;">
+                        <div style="font-weight: bold; text-align: center;">Giao diện Website</div>
+                        <div style="font-size: 10pt; color: #666; text-align: center;">HTML + CSS + Bootstrap</div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow" style="font-size: 24px;">⇅</div>
+                
+                <!-- Logic Layer -->
+                <div style="border: 2px solid #000; padding: 20px; width: 500px; background: #fff;">
+                    <div style="font-weight: bold; text-align: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #ccc;">
+                        XỬ LÝ NGHIỆP VỤ (JavaScript)
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                        <div style="border: 1px solid #000; padding: 8px 12px; font-size: 10pt; background: #e6ffe6;">main.js</div>
+                        <div style="border: 1px solid #000; padding: 8px 12px; font-size: 10pt; background: #e6f3ff;">auth.js</div>
+                        <div style="border: 1px solid #000; padding: 8px 12px; font-size: 10pt; background: #ffe6e6;">cart.js</div>
+                        <div style="border: 1px solid #000; padding: 8px 12px; font-size: 10pt; background: #fff6e6;">products.js</div>
+                        <div style="border: 1px solid #000; padding: 8px 12px; font-size: 10pt; background: #e6e6ff;">checkout.js</div>
+                        <div style="border: 1px solid #000; padding: 8px 12px; font-size: 10pt; background: #ffe6ff;">admin.js</div>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow" style="font-size: 24px;">⇅</div>
+                
+                <!-- Storage Layer -->
+                <div style="display: flex; gap: 30px; justify-content: center;">
+                    <div style="border: 3px solid #000; padding: 15px; background: #fff; min-width: 200px;">
+                        <div style="font-weight: bold; text-align: center; margin-bottom: 10px; background: #f0f0f0; padding: 5px;">
+                            LOCAL STORAGE
+                        </div>
+                        <div style="font-size: 10pt; font-family: 'Courier New', monospace;">
+                            <div style="padding: 3px 0;">• products[]</div>
+                            <div style="padding: 3px 0;">• users[]</div>
+                            <div style="padding: 3px 0;">• orders[]</div>
+                            <div style="padding: 3px 0;">• cart[]</div>
+                            <div style="padding: 3px 0;">• reviews[]</div>
+                            <div style="padding: 3px 0;">• contacts[]</div>
+                        </div>
+                    </div>
+                    <div style="border: 3px solid #000; padding: 15px; background: #fff; min-width: 200px;">
+                        <div style="font-weight: bold; text-align: center; margin-bottom: 10px; background: #f0f0f0; padding: 5px;">
+                            SESSION STORAGE
+                        </div>
+                        <div style="font-size: 10pt; font-family: 'Courier New', monospace;">
+                            <div style="padding: 3px 0;">• currentUser{}</div>
+                            <div style="padding: 3px 0;">• lastOrderId</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 11. CẤU TRÚC THƯ MỤC ========== -->
+        <h2>11. Cấu trúc thư mục dự án</h2>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Hình 3.11: Cấu trúc thư mục dự án</div>
+            <div class="folder-structure">
+<pre>
+<span class="folder">DuAnWebDIDong/</span>
+│
+├── <span class="file">index.html</span>              <span class="comment"># Trang chủ</span>
+├── <span class="file">sanpham.html</span>            <span class="comment"># Trang danh sách sản phẩm</span>
+├── <span class="file">chitiet.html</span>            <span class="comment"># Trang chi tiết sản phẩm</span>
+├── <span class="file">giohang.html</span>            <span class="comment"># Trang giỏ hàng</span>
+├── <span class="file">checkout.html</span>           <span class="comment"># Trang thanh toán</span>
+├── <span class="file">login.html</span>              <span class="comment"># Trang đăng nhập/đăng ký</span>
+├── <span class="file">account.html</span>            <span class="comment"># Trang tài khoản</span>
+├── <span class="file">danhgia.html</span>            <span class="comment"># Trang đánh giá</span>
+├── <span class="file">lienhe.html</span>             <span class="comment"># Trang liên hệ</span>
+├── <span class="file">order-success.html</span>      <span class="comment"># Trang đặt hàng thành công</span>
+├── <span class="file">admin-login.html</span>        <span class="comment"># Trang đăng nhập admin</span>
+├── <span class="file">admin.html</span>              <span class="comment"># Trang quản trị</span>
+│
+├── <span class="folder">css/</span>
+│   └── <span class="file">style.css</span>           <span class="comment"># File CSS tùy chỉnh</span>
+│
+├── <span class="folder">js/</span>
+│   ├── <span class="file">main.js</span>             <span class="comment"># JavaScript chính</span>
+│   ├── <span class="file">auth.js</span>             <span class="comment"># Xử lý đăng nhập/đăng ký</span>
+│   ├── <span class="file">cart.js</span>             <span class="comment"># Xử lý giỏ hàng</span>
+│   ├── <span class="file">checkout.js</span>         <span class="comment"># Xử lý thanh toán</span>
+│   ├── <span class="file">products.js</span>         <span class="comment"># Xử lý trang sản phẩm</span>
+│   ├── <span class="file">product-detail.js</span>   <span class="comment"># Xử lý chi tiết sản phẩm</span>
+│   ├── <span class="file">account.js</span>          <span class="comment"># Xử lý tài khoản</span>
+│   ├── <span class="file">admin.js</span>            <span class="comment"># Xử lý trang admin</span>
+│   ├── <span class="file">contact.js</span>          <span class="comment"># Xử lý form liên hệ</span>
+│   └── <span class="file">reviews.js</span>          <span class="comment"># Xử lý đánh giá</span>
+│
+└── <span class="folder">images/</span>
+    ├── <span class="folder">banners/</span>            <span class="comment"># Hình ảnh banner</span>
+    └── <span class="folder">products/</span>           <span class="comment"># Hình ảnh sản phẩm</span>
+</pre>
+            </div>
+        </div>
+        
+        <!-- ========== 12. BẢNG CẤU TRÚC DỮ LIỆU ========== -->
+        <h2>12. Cấu trúc dữ liệu chi tiết</h2>
+        
+        <h3>12.1. Cấu trúc dữ liệu Sản phẩm (Product)</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tên trường</th>
+                    <th>Kiểu dữ liệu</th>
+                    <th>Mô tả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="field-name">id</td>
+                    <td>Number</td>
+                    <td>Mã sản phẩm (khóa chính)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">name</td>
+                    <td>String</td>
+                    <td>Tên sản phẩm</td>
+                </tr>
+                <tr>
+                    <td class="field-name">brand</td>
+                    <td>String</td>
+                    <td>Hãng sản xuất (Apple, Samsung, Xiaomi...)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">price</td>
+                    <td>Number</td>
+                    <td>Giá bán (VNĐ)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">oldPrice</td>
+                    <td>Number</td>
+                    <td>Giá gốc trước khuyến mãi</td>
+                </tr>
+                <tr>
+                    <td class="field-name">discount</td>
+                    <td>Number</td>
+                    <td>Phần trăm giảm giá</td>
+                </tr>
+                <tr>
+                    <td class="field-name">image</td>
+                    <td>String</td>
+                    <td>Đường dẫn hình ảnh sản phẩm</td>
+                </tr>
+                <tr>
+                    <td class="field-name">ram</td>
+                    <td>Number</td>
+                    <td>Dung lượng RAM (GB)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">storage</td>
+                    <td>Number</td>
+                    <td>Bộ nhớ trong (GB)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">rating</td>
+                    <td>Number</td>
+                    <td>Đánh giá sao (1-5)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">specs</td>
+                    <td>Object</td>
+                    <td>Thông số kỹ thuật chi tiết</td>
+                </tr>
+                <tr>
+                    <td class="field-name">description</td>
+                    <td>String</td>
+                    <td>Mô tả sản phẩm</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>12.2. Cấu trúc dữ liệu Đơn hàng (Order)</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tên trường</th>
+                    <th>Kiểu dữ liệu</th>
+                    <th>Mô tả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="field-name">id</td>
+                    <td>Number</td>
+                    <td>Mã đơn hàng (khóa chính)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">userId</td>
+                    <td>Number</td>
+                    <td>Mã người dùng (khóa ngoại)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">orderNumber</td>
+                    <td>String</td>
+                    <td>Số đơn hàng (DHxxxxxx)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">customerName</td>
+                    <td>String</td>
+                    <td>Tên người nhận hàng</td>
+                </tr>
+                <tr>
+                    <td class="field-name">customerPhone</td>
+                    <td>String</td>
+                    <td>Số điện thoại người nhận</td>
+                </tr>
+                <tr>
+                    <td class="field-name">address</td>
+                    <td>String</td>
+                    <td>Địa chỉ giao hàng</td>
+                </tr>
+                <tr>
+                    <td class="field-name">items</td>
+                    <td>Array</td>
+                    <td>Danh sách sản phẩm trong đơn</td>
+                </tr>
+                <tr>
+                    <td class="field-name">total</td>
+                    <td>Number</td>
+                    <td>Tổng tiền đơn hàng</td>
+                </tr>
+                <tr>
+                    <td class="field-name">paymentMethod</td>
+                    <td>String</td>
+                    <td>Phương thức thanh toán</td>
+                </tr>
+                <tr>
+                    <td class="field-name">status</td>
+                    <td>String</td>
+                    <td>Trạng thái đơn hàng</td>
+                </tr>
+                <tr>
+                    <td class="field-name">createdAt</td>
+                    <td>String</td>
+                    <td>Thời gian tạo đơn</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>12.3. Cấu trúc dữ liệu Người dùng (User)</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tên trường</th>
+                    <th>Kiểu dữ liệu</th>
+                    <th>Mô tả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="field-name">id</td>
+                    <td>Number</td>
+                    <td>Mã người dùng (khóa chính)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">name</td>
+                    <td>String</td>
+                    <td>Họ và tên</td>
+                </tr>
+                <tr>
+                    <td class="field-name">email</td>
+                    <td>String</td>
+                    <td>Địa chỉ email (unique)</td>
+                </tr>
+                <tr>
+                    <td class="field-name">phone</td>
+                    <td>String</td>
+                    <td>Số điện thoại</td>
+                </tr>
+                <tr>
+                    <td class="field-name">password</td>
+                    <td>String</td>
+                    <td>Mật khẩu</td>
+                </tr>
+                <tr>
+                    <td class="field-name">createdAt</td>
+                    <td>String</td>
+                    <td>Ngày tạo tài khoản</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</body>
+</html>
